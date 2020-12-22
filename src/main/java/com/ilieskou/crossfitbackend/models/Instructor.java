@@ -1,6 +1,5 @@
 package com.ilieskou.crossfitbackend.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -22,7 +21,7 @@ public class Instructor {
     private String phone_number;
 
     @ManyToMany(mappedBy = "instructors")
-    private List<Class> classes;
+    private List<CrossfitClass> crossfitClasses;
 
     public Instructor() {
 

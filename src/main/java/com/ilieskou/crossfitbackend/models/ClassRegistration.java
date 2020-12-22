@@ -6,41 +6,41 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 
-@Entity(name="class_registration")
+@Entity(name="crossfit_class_registration")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ClassRegistration {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long class_registration_id;
+    private Long crossfit_class_registration_id;
 
     @ManyToOne
-    @JoinColumn(name = "class_id")
-    private Class _class;
+    @JoinColumn(name = "crossfit_class_id")
+    private CrossfitClass crossfitClass;
 
     @ManyToOne()
     @JoinColumn(name = "athlete_id")
     private Athlete athlete;
 
-    private Timestamp class_instance_ts;
+    private Timestamp crossfit_class_instance_ts;
 
     public ClassRegistration() {
 
     }
 
-    public Long getClass_registration_id() {
-        return class_registration_id;
+    public Long getCrossfit_class_registration_id() {
+        return crossfit_class_registration_id;
     }
 
-    public void setClass_registration_id(Long class_registration_id) {
-        this.class_registration_id = class_registration_id;
+    public void setCrossfit_class_registration_id(Long class_registration_id) {
+        this.crossfit_class_registration_id = class_registration_id;
     }
 
-    public Class get_class() {
-        return _class;
+    public CrossfitClass get_class() {
+        return crossfitClass;
     }
 
-    public void set_class(Class class_id) {
-        this._class = class_id;
+    public void set_class(CrossfitClass crossfitClass_id) {
+        this.crossfitClass = crossfitClass_id;
     }
 
     public Athlete getAthlete() {
@@ -51,12 +51,12 @@ public class ClassRegistration {
         this.athlete = athlete_id;
     }
 
-    public Timestamp getClass_instance_ts() {
-        return class_instance_ts;
+    public Timestamp getCrossfit_class_instance_ts() {
+        return crossfit_class_instance_ts;
     }
 
-    public void setClass_instance_ts(Timestamp class_instance_ts) {
-        this.class_instance_ts = class_instance_ts;
+    public void setCrossfit_class_instance_ts(Timestamp class_instance_ts) {
+        this.crossfit_class_instance_ts = class_instance_ts;
     }
 }
 
