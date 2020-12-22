@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.sql.Time;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name="classes")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -27,6 +28,9 @@ public class Class {
             joinColumns = @JoinColumn(name = "class_id"),
             inverseJoinColumns = @JoinColumn(name = "instructor_id"))
     private List<Instructor> instructors;
+
+    @OneToMany(mappedBy = "_class")
+    Set<ClassRegistration> registrations;
 
     public Class(){
 

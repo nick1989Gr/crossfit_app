@@ -2,11 +2,9 @@ package com.ilieskou.crossfitbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity(name="athletes")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -22,6 +20,9 @@ public class Athlete {
     private Date enrolled_date;
     private String email;
     private String phone_number;
+
+    @OneToMany(mappedBy = "athlete")
+    Set<ClassRegistration> registrations;
 
     public Athlete(){
 
