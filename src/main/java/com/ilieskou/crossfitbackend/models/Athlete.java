@@ -12,14 +12,19 @@ public class Athlete {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long athlete_id;
-
-    private String first_name;
-    private String last_name;
-    private Date date_of_birth;
-    private Date enrolled_date;
+    @Column(name = "athlete_id")
+    private Long id;
+    @Column(name = "first_name")
+    private String firstName;
+    @Column(name = "last_name")
+    private String lastName;
+    @Column(name = "date_of_birth")
+    private Date dateOfBirth;
+    @Column(name = "enrolled_date")
+    private Date enrolledDate;
     private String email;
-    private String phone_number;
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
     @OneToMany(mappedBy = "athlete")
     Set<ClassRegistration> registrations;
@@ -28,44 +33,44 @@ public class Athlete {
 
     }
 
-    public Long getAthlete_id() {
-        return athlete_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setAthlete_id(Long athlete_id) {
-        this.athlete_id = athlete_id;
+    public void setId(Long athlete_id) {
+        this.id = athlete_id;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String first_name) {
+        this.firstName = first_name;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String last_name) {
+        this.lastName = last_name;
     }
 
-    public Date getDate_of_birth() {
-        return date_of_birth;
+    public Date getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setDate_of_birth(Date date_of_birth) {
-        this.date_of_birth = date_of_birth;
+    public void setDateOfBirth(Date date_of_birth) {
+        this.dateOfBirth = date_of_birth;
     }
 
-    public Date getEnrolled_date() {
-        return enrolled_date;
+    public Date getEnrolledDate() {
+        return enrolledDate;
     }
 
-    public void setEnrolled_date(Date enrolled_date) {
-        this.enrolled_date = enrolled_date;
+    public void setEnrolledDate(Date enrolled_date) {
+        this.enrolledDate = enrolled_date;
     }
 
     public String getEmail() {
@@ -76,11 +81,11 @@ public class Athlete {
         this.email = email;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phone_number) {
+        this.phoneNumber = phone_number;
     }
 }

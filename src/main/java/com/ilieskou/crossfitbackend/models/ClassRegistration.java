@@ -11,7 +11,8 @@ import java.sql.Timestamp;
 public class ClassRegistration {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long crossfit_class_registration_id;
+    @Column(name = "crossfit_class_registration_id")
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "crossfit_class_id")
@@ -21,26 +22,27 @@ public class ClassRegistration {
     @JoinColumn(name = "athlete_id")
     private Athlete athlete;
 
-    private Timestamp crossfit_class_instance_ts;
+    @Column(name = "crossfit_class_instance_ts")
+    private Timestamp classTimestamp;
 
     public ClassRegistration() {
 
     }
 
-    public Long getCrossfit_class_registration_id() {
-        return crossfit_class_registration_id;
-    }
-
-    public void setCrossfit_class_registration_id(Long class_registration_id) {
-        this.crossfit_class_registration_id = class_registration_id;
-    }
-
-    public CrossfitClass get_class() {
+    public CrossfitClass getCrossfitClass() {
         return crossfitClass;
     }
 
-    public void set_class(CrossfitClass crossfitClass_id) {
-        this.crossfitClass = crossfitClass_id;
+    public void setCrossfitClass(CrossfitClass crossfitClass) {
+        this.crossfitClass = crossfitClass;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long class_registration_id) {
+        this.id = class_registration_id;
     }
 
     public Athlete getAthlete() {
@@ -51,12 +53,12 @@ public class ClassRegistration {
         this.athlete = athlete_id;
     }
 
-    public Timestamp getCrossfit_class_instance_ts() {
-        return crossfit_class_instance_ts;
+    public Timestamp getClassTimestamp() {
+        return classTimestamp;
     }
 
-    public void setCrossfit_class_instance_ts(Timestamp class_instance_ts) {
-        this.crossfit_class_instance_ts = class_instance_ts;
+    public void setClassTimestamp(Timestamp class_instance_ts) {
+        this.classTimestamp = class_instance_ts;
     }
 }
 

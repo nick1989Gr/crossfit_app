@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/classes")
-public class ClassesController {
+public class CrossfitClassesController {
 
     @Autowired
     private CrossfitClassesRepository crossfitClassesRepository;

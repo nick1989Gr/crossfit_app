@@ -14,13 +14,19 @@ public class CrossfitClass {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long crossfit_class_id;
+    @Column(name = "crossfit_class_id")
+    private Long id;
 
-    private String crossfit_class_type;
-    private String crossfit_class_day;
-    private Time crossfit_class_time;
-    private Integer crossfit_class_duration;
-    private Integer max_participants;
+    @Column(name = "crossfit_class_type")
+    private String type;
+    @Column(name = "crossfit_class_day")
+    private String classDay;
+    @Column(name = "crossfit_class_time")
+    private Time classTime;
+    @Column(name = "crossfit_class_duration")
+    private Integer classDuration;
+    @Column(name = "max_participants")
+    private Integer maxParticipants;
 
     @ManyToMany
     @JoinTable(
@@ -36,51 +42,51 @@ public class CrossfitClass {
 
     }
 
-    public Long getCrossfit_class_id() {
-        return crossfit_class_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setCrossfit_class_id(Long athlete_id) {
-        this.crossfit_class_id = athlete_id;
+    public void setId(Long athlete_id) {
+        this.id = athlete_id;
     }
 
-    public String getCrossfit_class_type() {
-        return crossfit_class_type;
+    public String getType() {
+        return type;
     }
 
-    public void setCrossfit_class_type(String class_type) {
-        this.crossfit_class_type = class_type;
+    public void setType(String class_type) {
+        this.type = class_type;
     }
 
-    public String getCrossfit_class_day() {
-        return crossfit_class_day;
+    public String getClassDay() {
+        return classDay;
     }
 
-    public void setCrossfit_class_day(String class_day) {
-        this.crossfit_class_day = class_day;
+    public void setClassDay(String class_day) {
+        this.classDay = class_day;
     }
 
-    public Time getCrossfit_class_time() {
-        return crossfit_class_time;
+    public Time getClassTime() {
+        return classTime;
     }
 
-    public void setCrossfit_class_time(Time class_time) {
-        this.crossfit_class_time = class_time;
+    public void setClassTime(Time class_time) {
+        this.classTime = class_time;
     }
 
-    public Integer getCrossfit_class_duration() {
-        return crossfit_class_duration;
+    public Integer getClassDuration() {
+        return classDuration;
     }
 
-    public void setCrossfit_class_duration(Integer class_duration) {
-        this.crossfit_class_duration = class_duration;
+    public void setClassDuration(Integer class_duration) {
+        this.classDuration = class_duration;
     }
 
-    public Integer getMax_participants() {
-        return max_participants;
+    public Integer getMaxParticipants() {
+        return maxParticipants;
     }
 
-    public void setMax_participants(Integer max_participants) {
-        this.max_participants = max_participants;
+    public void setMaxParticipants(Integer max_participants) {
+        this.maxParticipants = max_participants;
     }
 }
