@@ -21,6 +21,13 @@ public class Class {
     private Integer class_duration;
     private Integer max_participants;
 
+    @ManyToMany
+    @JoinTable(
+            name = "classes_instructors",
+            joinColumns = @JoinColumn(name = "class_id"),
+            inverseJoinColumns = @JoinColumn(name = "instructor_id"))
+    private List<Instructor> instructors;
+
     public Class(){
 
     }
