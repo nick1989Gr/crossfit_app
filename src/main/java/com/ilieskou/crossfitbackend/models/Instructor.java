@@ -23,12 +23,21 @@ public class Instructor {
     private String email;
     @Column(name = "phone_number")
     private String phoneNumber;
+    private String bio;
 
     @ManyToMany(mappedBy = "instructors")
     private List<CrossfitClass> crossfitClasses;
 
     public Instructor() {
 
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
     public Long getInstructor_id() {
