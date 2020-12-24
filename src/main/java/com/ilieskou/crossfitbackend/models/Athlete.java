@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity(name="athletes")
@@ -26,8 +27,10 @@ public class Athlete {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "athlete")
-    Set<ClassRegistration> registrations;
+
+
+    @ManyToMany(mappedBy = "athletes")
+    List<CrossfitClass> crossfitClasses;
 
     public Athlete(){
 

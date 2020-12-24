@@ -1,6 +1,7 @@
 package com.ilieskou.crossfitbackend.controllers;
 import com.ilieskou.crossfitbackend.models.CrossfitClass;
 import com.ilieskou.crossfitbackend.repositories.CrossfitClassesRepository;
+import com.ilieskou.crossfitbackend.services.CrossfitClassesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,17 +13,17 @@ import java.util.List;
 public class CrossfitClassesController {
 
     @Autowired
-    private CrossfitClassesRepository crossfitClassesRepository;
+    private CrossfitClassesService crossfitClassesService;
 
     @GetMapping
     public List<CrossfitClass> list() {
-        return crossfitClassesRepository.findAll();
+        return crossfitClassesService.getAllCrossfitClasses();
     }
 
     @GetMapping
     @RequestMapping("{id}")
     public CrossfitClass get(@PathVariable Long id) {
-        return crossfitClassesRepository.findById(id).get();
+        return crossfitClassesService.getCrossfitClass(id);
     }
 }
 

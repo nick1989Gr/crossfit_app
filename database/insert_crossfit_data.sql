@@ -9,35 +9,36 @@ VALUES (1,'Nick', 'Ilieskou', '1989-04-11','2019-01-01', 'nickilieskou@gmail.com
        (8,'Nick', 'Gerald', '1989-04-11','2017-01-01', 'nickgerald@gmail.com','+31622855789'),
        (9,'Pit', 'Pittren', '1984-04-11','2017-01-01', 'pitpittren@gmail.com','+31622855789');
        
-INSERT INTO crossfit_classes (crossfit_class_id, crossfit_class_type, crossfit_class_day, crossfit_class_time, crossfit_class_duration, max_participants)
-VALUES (1, 'wod','Tuesday',  '15:00:00', 60, 5),
-       (2, 'wod','Thursday', '15:00:00', 60, 5),
-       (3, 'wod','Saturday', '15:00:00', 60, 5),
-       (4, 'wod','Tuesday',  '16:00:00', 60, 5),
-       (5, 'wod','Thursday', '16:00:00', 60, 5),
-       (6, 'wod','Saturday', '16:00:00', 60, 5),
-       (7, 'wod','Tuesday',  '17:00:00', 60, 5),
-       (8, 'wod','Thursday', '17:00:00', 60, 5),
-       (9, 'wod','Saturday', '17:00:00', 60, 5),
-       (10,'weight lifting','Monday' , '18:00:00',60,5),
-       (11,'weight lifting','Tuesday', '18:00:00',60,5),
-       (12,'weight lifting','Wednesday', '18:00:00',60,5),
-       (13,'weight lifting','Monday', '19:00:00',60,5),
-       (14,'weight lifting','Tuesday', '19:00:00',60,5),
-       (15,'weight lifting','Wednesday', '19:00:00',60,5),
-       (16,'weight lifting','Monday', '20:00:00',60,5),
-       (17,'weight lifting','Tuesday', '20:00:00',60,5),
-       (18,'weight lifting','Wednesday', '20:00:00',60,5),
-       (19,'calisthenics','Monday', '10:00:00', 90, 8),
-       (20,'calisthenics','Wednesday', '10:00:00', 90, 8),
-       (21,'calisthenics','Friday', '10:00:00', 90, 8),
-       (22,'calisthenics','Monday', '12:00:00', 90, 8),
-       (23,'calisthenics','Wednesday', '12:00:00', 90, 8),
-       (24,'calisthenics','Friday', '12:00:00', 90, 8),
-       (25,'calisthenics','Monday', '14:00:00', 90, 8),
-       (26,'calisthenics','Wednesday', '14:00:00', 90, 8),
-       (27,'calisthenics','Friday', '14:00:00', 90, 8);
+INSERT INTO crossfit_classes (crossfit_class_id, crossfit_class_type, crossfit_class_ts, crossfit_class_duration, max_participants, remaining_positions)
+VALUES (1, 'wod',           '2021-01-01 15:00:00+01', 60, 5, 1),
+       (2, 'wod',           '2021-01-01 16:00:00+01', 60, 5, 0),
+       (3, 'wod',           '2021-01-01 17:00:00+01', 60, 5, 5),
+       (4, 'wod',           '2021-01-01 18:00:00+01', 60, 5, 5),
+       (5, 'wod',           '2021-01-01 19:00:00+01', 60, 5, 5),
+       (6, 'wod',           '2021-01-02 15:00:00+01', 60, 5, 5),
+       (7, 'wod',           '2021-01-02 16:00:00+01', 60, 5, 5),
+       (8, 'wod',           '2021-01-02 17:00:00+01', 60, 5, 5),
+       (9, 'wod',           '2021-01-02 18:00:00+01', 60, 5, 5),
+       (10,'weight lifting','2021-01-01 15:00:00+01', 60, 5, 5),
+       (11,'weight lifting','2021-01-01 16:00:00+01', 60, 5, 5),
+       (12,'weight lifting','2021-01-01 17:00:00+01', 60, 5, 5),
+       (13,'weight lifting','2021-01-01 18:00:00+01', 60, 5, 5),
+       (14,'weight lifting','2021-01-01 19:00:00+01', 60, 5, 5),
+       (15,'weight lifting','2021-01-02 15:00:00+01', 60, 5, 5),
+       (16,'weight lifting','2021-01-02 16:00:00+01', 60, 5, 5),
+       (17,'weight lifting','2021-01-02 17:00:00+01', 60, 5, 5),
+       (18,'weight lifting','2021-01-02 18:00:00+01', 60, 5, 5),
+       (19,'calisthenics',  '2021-01-01 15:00:00+01', 90, 8, 8),
+       (20,'calisthenics',  '2021-01-01 16:00:00+01', 90, 8, 8),
+       (21,'calisthenics',  '2021-01-01 17:00:00+01', 90, 8, 8),
+       (22,'calisthenics',  '2021-01-01 18:00:00+01', 90, 8, 8),
+       (23,'calisthenics',  '2021-01-01 19:00:00+01', 90, 8, 8),
+       (24,'calisthenics',  '2021-01-02 15:00:00+01', 90, 8, 8),
+       (25,'calisthenics',  '2021-01-02 16:00:00+01', 90, 8, 8),
+       (26,'calisthenics',  '2021-01-02 17:00:00+01', 90, 8, 8),
+       (27,'calisthenics',  '2021-01-02 18:00:00+01', 90, 8, 8);
        
+
        
 INSERT INTO instructors (instructor_id, first_name, last_name, date_of_birth, email, phone_number, bio)
 VALUES (1,'Tim', 'Madeson', '1989-04-11', 'timmadeson@gmail.com','+31622855789','Crossfit Trainer with specialization in WODs'),
@@ -76,12 +77,14 @@ VALUES (1,1),
        (26,3),
        (27,3);
        
-INSERT INTO crossfit_class_registration (crossfit_class_registration_id, crossfit_class_id, athlete_id, crossfit_class_instance_ts)
-VALUES (1,1,1,'2016-12-22 15:00:00+01'),
-       (2,1,2,'2016-12-22 15:00:00+01'),
-       (3,1,3,'2016-12-22 15:00:00+01'),
-       (4,1,4,'2016-12-22 15:00:00+01'),
-       (5,1,5,'2017-12-22 13:00:00+01'),
-       (6,2,1,'2018-12-22 12:00:00+01'),
-       (7,3,1,'2019-12-22 16:00:00+01');
+INSERT INTO crossfit_classes_athletes (crossfit_class_id, athlete_id)
+VALUES (1,1),
+       (1,2),
+       (1,3),
+       (1,4),
+       (2,1),
+       (2,2),
+       (2,3),
+       (2,4),
+       (2,5);
        

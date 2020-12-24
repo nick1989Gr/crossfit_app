@@ -15,20 +15,18 @@ CREATE TABLE crossfit_classes
 (
     crossfit_class_id         SERIAL PRIMARY KEY,
     crossfit_class_type       varchar(30)  NOT NULL,
-    crossfit_class_day       text NOT NULL,
-    crossfit_class_time      time NOT NULL,
+    crossfit_class_ts       TIMESTAMPTZ NOT NULL,
     crossfit_class_duration   integer NOT NULL,
-    max_participants integer NOT NULL
+    max_participants integer NOT NULL,
+    remaining_positions integer NOT NULL
 );
 
 
-DROP TABLE IF EXISTS crossfit_class_registration;
-CREATE TABLE crossfit_class_registration
+DROP TABLE IF EXISTS crossfit_classes_athletes;
+CREATE TABLE crossfit_classes_athletes
 (
-    crossfit_class_registration_id  SERIAL PRIMARY KEY,
-    crossfit_class_id               integer     NOT NULL REFERENCES crossfit_classes (crossfit_class_id),
-    athlete_id             integer     NOT NULL REFERENCES athletes (athlete_id),
-    crossfit_class_instance_ts      TIMESTAMPTZ  NOT NULL
+    crossfit_class_id      integer     NOT NULL REFERENCES crossfit_classes (crossfit_class_id),
+    athlete_id             integer     NOT NULL REFERENCES athletes (athlete_id)
 );
 
 DROP TABLE IF EXISTS instructors;
