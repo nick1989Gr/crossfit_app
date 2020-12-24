@@ -1,5 +1,6 @@
 package com.ilieskou.crossfitbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -7,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-@Entity(name="athletes")
+@Entity(name = "athletes")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Athlete {
 
@@ -27,13 +28,20 @@ public class Athlete {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-
-
     @ManyToMany(mappedBy = "athletes")
+    @JsonIgnore
     List<CrossfitClass> crossfitClasses;
 
-    public Athlete(){
+    public Athlete() {
 
+    }
+
+    public List<CrossfitClass> getCrossfitClasses() {
+        return crossfitClasses;
+    }
+
+    public void setCrossfitClasses(List<CrossfitClass> crossfitClasses) {
+        this.crossfitClasses = crossfitClasses;
     }
 
     public Long getId() {
