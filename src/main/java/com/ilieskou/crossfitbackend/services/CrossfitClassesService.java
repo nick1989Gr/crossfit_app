@@ -11,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CrossfitClassesService {
@@ -33,21 +32,13 @@ public class CrossfitClassesService {
     public CrossfitClass deleteRegistration(Long athleteId, Long classId) {
         Optional<CrossfitClass> crossfitClass = crossfitClassesRepository.findById(classId);
         Optional<Athlete> athlete = athletesRepository.findById(athleteId);
-        if (crossfitClass.isEmpty()) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Class Not Found");
+        throwIfNotPresent(crossfitClass, "Class Not Found");
+        throwIfNotPresent(athlete, "Athlete Not Found");
 
-        }
-        if (athlete.isEmpty()) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Athlete Not Found");
-
-        }
         List<Athlete> registeredAthletes = crossfitClass.get().getAthletes();
         for (Athlete a : registeredAthletes) {
             if (a.getId() == athleteId) {
                 registeredAthletes.remove(a);
-                //persist
                 crossfitClass.get().setAthletes(registeredAthletes);
                 return crossfitClassesRepository.saveAndFlush(crossfitClass.get());
             }
@@ -58,18 +49,15 @@ public class CrossfitClassesService {
     public CrossfitClass registerAthleteToClass(Long athleteId, Long classId) {
         Optional<CrossfitClass> crossfitClass = crossfitClassesRepository.findById(classId);
         Optional<Athlete> athlete = athletesRepository.findById(athleteId);
-        if (crossfitClass.isEmpty()) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Class Not Found");
+        throwIfNotPresent(crossfitClass, "Class Not Found");
+        throwIfNotPresent(athlete, "Athlete Not Found");
 
-        }
-        if (athlete.isEmpty()) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Athlete Not Found");
-
-        }
         if (canClassFitMoreAthletes(crossfitClass)) {
             List<Athlete> existingAthletes = crossfitClass.get().getAthletes();
+            if (includesAthlete(existingAthletes, athleteId)) {
+                throw new ResponseStatusException(
+                        HttpStatus.NOT_ACCEPTABLE, "Athlete is already registered to the course");
+            }
             existingAthletes.add(athlete.get());
             crossfitClass.get().setAthletes(existingAthletes);
             return crossfitClassesRepository.saveAndFlush(crossfitClass.get());
@@ -78,6 +66,18 @@ public class CrossfitClassesService {
                     HttpStatus.NOT_ACCEPTABLE, "Class is full");
         }
 
+    }
+
+    public static Boolean includesAthlete(List<Athlete> list, Long id) {
+        return !(list.stream().filter(a -> id.equals(a.getId())).findFirst().orElse(null) == null);
+    }
+
+    private void throwIfNotPresent(Optional<?> entity, String msg) {
+        if (entity.isEmpty()) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, msg);
+
+        }
     }
 
     private boolean canClassFitMoreAthletes(Optional<CrossfitClass> crossfitClass) {
