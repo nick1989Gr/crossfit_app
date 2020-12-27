@@ -9,8 +9,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 
-
-@Entity(name="crossfit_classes")
+@Entity(name = "crossfit_classes")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class CrossfitClass {
 
@@ -39,14 +38,13 @@ public class CrossfitClass {
 
 
     @ManyToMany
-//    @Size(min=1, max=10)
     @JoinTable(
             name = "crossfit_classes_athletes",
             joinColumns = @JoinColumn(name = "crossfit_class_id"),
             inverseJoinColumns = @JoinColumn(name = "athlete_id"))
     private List<Athlete> athletes;
 
-    public CrossfitClass(){
+    public CrossfitClass() {
 
     }
 

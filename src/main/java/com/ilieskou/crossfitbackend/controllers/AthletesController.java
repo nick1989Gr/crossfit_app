@@ -5,8 +5,10 @@ import com.ilieskou.crossfitbackend.models.dto.AthleteDto;
 import com.ilieskou.crossfitbackend.repositories.AthletesRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,12 +38,19 @@ public class AthletesController {
     }
 
     @PostMapping
-    public Athlete create(@RequestBody final Athlete athlete) {
-        return athletesRepository.saveAndFlush(athlete);
+    public AthleteDto create(@RequestBody final AthleteDto athleteDto) throws ParseException {
+        Athlete athlete = convertToEntity(athleteDto);
+        Athlete athleteCreated = athletesRepository.saveAndFlush(athlete);
+        return convertToDto(athleteCreated);
     }
 
     private AthleteDto convertToDto(Athlete athlete) {
         AthleteDto athleteDto = modelMapper.map(athlete, AthleteDto.class);
         return athleteDto;
+    }
+
+    private Athlete convertToEntity(AthleteDto athleteDto) throws ParseException {
+        Athlete athlete = modelMapper.map(athleteDto, Athlete.class);
+        return athlete;
     }
 }
