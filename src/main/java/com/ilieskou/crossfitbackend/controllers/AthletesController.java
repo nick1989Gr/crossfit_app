@@ -30,8 +30,9 @@ public class AthletesController {
 
     @GetMapping
     @RequestMapping("{id}")
-    public Athlete get(@PathVariable Long id) {
-        return athletesRepository.findById(id).get();
+    public AthleteDto get(@PathVariable Long id) {
+        Athlete athlete = athletesRepository.findById(id).get();
+        return modelMapper.map(athlete, AthleteDto.class);
     }
 
     @PostMapping
