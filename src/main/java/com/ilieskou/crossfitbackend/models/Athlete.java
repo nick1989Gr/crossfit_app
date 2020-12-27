@@ -29,7 +29,6 @@ public class Athlete {
     private String phoneNumber;
 
     @ManyToMany(mappedBy = "athletes")
-    @JsonIgnore
     List<CrossfitClass> crossfitClasses;
 
     public Athlete() {

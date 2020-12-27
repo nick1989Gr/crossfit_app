@@ -1,11 +1,14 @@
 package com.ilieskou.crossfitbackend.controllers;
 
 import com.ilieskou.crossfitbackend.models.Athlete;
+import com.ilieskou.crossfitbackend.models.dto.AthleteDto;
 import com.ilieskou.crossfitbackend.repositories.AthletesRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -14,10 +17,15 @@ public class AthletesController {
 
     @Autowired
     private AthletesRepository athletesRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping
-    public List<Athlete> list() {
-        return athletesRepository.findAll();
+    public List<AthleteDto> list() {
+        List<Athlete> athletes = athletesRepository.findAll();
+        return athletes.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     @GetMapping
@@ -27,7 +35,12 @@ public class AthletesController {
     }
 
     @PostMapping
-    public Athlete create(@RequestBody final Athlete athlete){
+    public Athlete create(@RequestBody final Athlete athlete) {
         return athletesRepository.saveAndFlush(athlete);
+    }
+
+    private AthleteDto convertToDto(Athlete athlete) {
+        AthleteDto athleteDto = modelMapper.map(athlete, AthleteDto.class);
+        return athleteDto;
     }
 }
