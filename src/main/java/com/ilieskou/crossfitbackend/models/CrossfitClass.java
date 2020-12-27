@@ -4,7 +4,6 @@ package com.ilieskou.crossfitbackend.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -26,8 +25,6 @@ public class CrossfitClass {
     private Integer classDuration;
     @Column(name = "max_participants")
     private Integer maxParticipants;
-    @Column(name = "remaining_positions")
-    private Integer remainingPositions;
 
     @ManyToMany
     @JoinTable(
@@ -86,14 +83,6 @@ public class CrossfitClass {
 
     public void setMaxParticipants(Integer maxParticipants) {
         this.maxParticipants = maxParticipants;
-    }
-
-    public Integer getRemainingPositions() {
-        return remainingPositions;
-    }
-
-    public void setRemainingPositions(Integer remainingPositions) {
-        this.remainingPositions = remainingPositions;
     }
 
     public List<Instructor> getInstructors() {

@@ -2,8 +2,11 @@ package com.ilieskou.crossfitbackend.services;
 
 import com.ilieskou.crossfitbackend.models.Athlete;
 import com.ilieskou.crossfitbackend.models.CrossfitClass;
+import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDetailsDto;
+import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDto;
 import com.ilieskou.crossfitbackend.repositories.AthletesRepository;
 import com.ilieskou.crossfitbackend.repositories.CrossfitClassesRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -11,9 +14,13 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CrossfitClassesService {
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
     private CrossfitClassesRepository crossfitClassesRepository;
@@ -21,15 +28,19 @@ public class CrossfitClassesService {
     @Autowired
     private AthletesRepository athletesRepository;
 
-    public List<CrossfitClass> getAllCrossfitClasses() {
-        return crossfitClassesRepository.findAll();
+    public List<CrossfitClassDto> getAllCrossfitClasses() {
+        List<CrossfitClass> crossfitClasses = crossfitClassesRepository.findAll();
+        return crossfitClasses.stream()
+                .map(this::convertToCrossfitClassDto)
+                .collect(Collectors.toList());
     }
 
-    public CrossfitClass getCrossfitClass(Long id) {
-        return crossfitClassesRepository.findById(id).get();
+    public CrossfitClassDetailsDto getCrossfitClass(Long id) {
+        CrossfitClass crossfitClass = crossfitClassesRepository.findById(id).get();
+        return convertToCrossfitClassDetailsDto(crossfitClass);
     }
 
-    public CrossfitClass deleteRegistration(Long athleteId, Long classId) {
+    public CrossfitClassDetailsDto deleteRegistration(Long athleteId, Long classId) {
         Optional<CrossfitClass> crossfitClass = crossfitClassesRepository.findById(classId);
         Optional<Athlete> athlete = athletesRepository.findById(athleteId);
         throwIfNotPresent(crossfitClass, "Class Not Found");
@@ -40,13 +51,14 @@ public class CrossfitClassesService {
             if (a.getId() == athleteId) {
                 registeredAthletes.remove(a);
                 crossfitClass.get().setAthletes(registeredAthletes);
-                return crossfitClassesRepository.saveAndFlush(crossfitClass.get());
+                CrossfitClass c = crossfitClassesRepository.saveAndFlush(crossfitClass.get());
+                return convertToCrossfitClassDetailsDto(c);
             }
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Athlete was not enrolled to the class");
     }
 
-    public CrossfitClass registerAthleteToClass(Long athleteId, Long classId) {
+    public CrossfitClassDetailsDto registerAthleteToClass(Long athleteId, Long classId) {
         Optional<CrossfitClass> crossfitClass = crossfitClassesRepository.findById(classId);
         Optional<Athlete> athlete = athletesRepository.findById(athleteId);
         throwIfNotPresent(crossfitClass, "Class Not Found");
@@ -60,7 +72,8 @@ public class CrossfitClassesService {
             }
             existingAthletes.add(athlete.get());
             crossfitClass.get().setAthletes(existingAthletes);
-            return crossfitClassesRepository.saveAndFlush(crossfitClass.get());
+            CrossfitClass c = crossfitClassesRepository.saveAndFlush(crossfitClass.get());
+            return convertToCrossfitClassDetailsDto(c);
         } else {
             throw new ResponseStatusException(
                     HttpStatus.NOT_ACCEPTABLE, "Class is full");
@@ -82,6 +95,19 @@ public class CrossfitClassesService {
 
     private boolean canClassFitMoreAthletes(Optional<CrossfitClass> crossfitClass) {
         return crossfitClass.get().getAthletes().size() < crossfitClass.get().getMaxParticipants();
+    }
+
+
+    private CrossfitClassDto convertToCrossfitClassDto(CrossfitClass crossfitClass) {
+        return modelMapper.map(crossfitClass, CrossfitClassDto.class);
+    }
+
+    private CrossfitClass crossfitClassDtoconvertToEntity(CrossfitClassDto crossfitClassDto) {
+        return modelMapper.map(crossfitClassDto, CrossfitClass.class);
+    }
+
+    private CrossfitClassDetailsDto convertToCrossfitClassDetailsDto(CrossfitClass crossfitClass) {
+        return modelMapper.map(crossfitClass, CrossfitClassDetailsDto.class);
     }
 
 

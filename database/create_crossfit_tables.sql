@@ -17,8 +17,7 @@ CREATE TABLE crossfit_classes
     crossfit_class_type       varchar(30)  NOT NULL,
     crossfit_class_ts       TIMESTAMPTZ NOT NULL,
     crossfit_class_duration   integer NOT NULL,
-    max_participants integer NOT NULL,
-    remaining_positions integer NOT NULL
+    max_participants integer NOT NULL
 );
 
 

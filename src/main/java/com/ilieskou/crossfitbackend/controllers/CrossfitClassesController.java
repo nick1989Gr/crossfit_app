@@ -1,11 +1,10 @@
 package com.ilieskou.crossfitbackend.controllers;
 
-import com.ilieskou.crossfitbackend.models.CrossfitClass;
+import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDetailsDto;
+import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDto;
 import com.ilieskou.crossfitbackend.services.CrossfitClassesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -18,19 +17,19 @@ public class CrossfitClassesController {
     private CrossfitClassesService crossfitClassesService;
 
     @GetMapping
-    public List<CrossfitClass> list() {
+    public List<CrossfitClassDto> list() {
         return crossfitClassesService.getAllCrossfitClasses();
     }
 
     @GetMapping
     @RequestMapping("{id}")
-    public CrossfitClass get(@PathVariable Long id) {
+    public CrossfitClassDetailsDto get(@PathVariable Long id) {
         return crossfitClassesService.getCrossfitClass(id);
     }
 
     @PostMapping
     @RequestMapping(path = "/{athlete_id}/{class_id}")
-    public CrossfitClass registerAthleteToClass(
+    public CrossfitClassDetailsDto registerAthleteToClass(
             @PathVariable("athlete_id") final Long athleteId,
             @PathVariable("class_id") final Long classId
     ) {
@@ -38,7 +37,7 @@ public class CrossfitClassesController {
     }
 
     @DeleteMapping(value = "{athlete_id}/{class_id}")
-    public CrossfitClass deleteRegistrationAthleteToClass(
+    public CrossfitClassDetailsDto deleteRegistrationAthleteToClass(
             @PathVariable("athlete_id") final Long athleteId,
             @PathVariable("class_id") final Long classId
     ) {
