@@ -3,6 +3,7 @@ package com.ilieskou.crossfitbackend.controllers;
 import com.ilieskou.crossfitbackend.models.Athlete;
 import com.ilieskou.crossfitbackend.models.dto.AthleteDto;
 import com.ilieskou.crossfitbackend.repositories.AthletesRepository;
+import com.ilieskou.crossfitbackend.services.AthletesService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,39 +19,27 @@ import java.util.stream.Collectors;
 public class AthletesController {
 
     @Autowired
-    private AthletesRepository athletesRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+    private AthletesService athletesService;
+
 
     @GetMapping
-    public List<AthleteDto> list() {
-        List<Athlete> athletes = athletesRepository.findAll();
-        return athletes.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+    public List<AthleteDto> getAllAthletes() {
+        return athletesService.getAllAthletes();
     }
 
     @GetMapping
     @RequestMapping("{id}")
-    public AthleteDto get(@PathVariable Long id) {
-        Athlete athlete = athletesRepository.findById(id).get();
-        return modelMapper.map(athlete, AthleteDto.class);
+    public AthleteDto getAthlete(@PathVariable Long id) {
+        return athletesService.getAthlete(id);
     }
 
     @PostMapping
     public AthleteDto create(@RequestBody final AthleteDto athleteDto) throws ParseException {
-        Athlete athlete = convertToEntity(athleteDto);
-        Athlete athleteCreated = athletesRepository.saveAndFlush(athlete);
-        return convertToDto(athleteCreated);
+        return athletesService.create(athleteDto);
     }
 
-    private AthleteDto convertToDto(Athlete athlete) {
-        AthleteDto athleteDto = modelMapper.map(athlete, AthleteDto.class);
-        return athleteDto;
-    }
-
-    private Athlete convertToEntity(AthleteDto athleteDto) throws ParseException {
-        Athlete athlete = modelMapper.map(athleteDto, Athlete.class);
-        return athlete;
+    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable Long id) {
+        athletesService.delete(id);
     }
 }
