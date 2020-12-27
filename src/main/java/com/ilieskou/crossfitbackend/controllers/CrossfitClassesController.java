@@ -28,7 +28,7 @@ public class CrossfitClassesController {
     }
 
     @PostMapping
-    @RequestMapping(path = "/{athlete_id}/{class_id}")
+    @RequestMapping(path = "registration/{athlete_id}/{class_id}")
     public CrossfitClassDetailsDto registerAthleteToClass(
             @PathVariable("athlete_id") final Long athleteId,
             @PathVariable("class_id") final Long classId
@@ -36,7 +36,7 @@ public class CrossfitClassesController {
         return crossfitClassesService.registerAthleteToClass(athleteId, classId);
     }
 
-    @DeleteMapping(value = "{athlete_id}/{class_id}")
+    @DeleteMapping(value = "registration/{athlete_id}/{class_id}")
     public CrossfitClassDetailsDto deleteRegistrationAthleteToClass(
             @PathVariable("athlete_id") final Long athleteId,
             @PathVariable("class_id") final Long classId
