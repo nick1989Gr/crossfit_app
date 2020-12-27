@@ -1,17 +1,12 @@
 package com.ilieskou.crossfitbackend.controllers;
 
-import com.ilieskou.crossfitbackend.models.Athlete;
 import com.ilieskou.crossfitbackend.models.dto.AthleteDto;
-import com.ilieskou.crossfitbackend.repositories.AthletesRepository;
 import com.ilieskou.crossfitbackend.services.AthletesService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
