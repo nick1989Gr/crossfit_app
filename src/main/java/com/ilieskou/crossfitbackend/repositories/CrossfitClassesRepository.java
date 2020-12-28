@@ -22,7 +22,7 @@ public interface CrossfitClassesRepository extends JpaRepository<CrossfitClass, 
             "FROM crossfit_classes as c  " +
             "JOIN (" +
                     "SELECT CLASSES.crossfit_class_id, " +
-                           "COUNT(CLASSES_ATHLETES.crossfit_class_id) as availableSlots\n" +
+                           "CLASSES.max_participants - COUNT(CLASSES_ATHLETES.crossfit_class_id) as availableSlots\n" +
                     "FROM crossfit_classes as CLASSES \n" +
                     "LEFT JOIN crossfit_classes_athletes as CLASSES_ATHLETES " +
                     "ON CLASSES.crossfit_class_id = CLASSES_ATHLETES.crossfit_class_id " +
