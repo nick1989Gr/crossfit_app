@@ -46,7 +46,7 @@ public class CrossfitClassesController {
         return crossfitClassesService.deleteRegistration(athleteId, classId);
     }
 
-    @GetMapping
+    @PostMapping
     @RequestMapping("schedule")
     public List<ISchedule> getSchedule(@RequestBody TimePeriodDto timePeriodDto) {
         return crossfitClassesService.getSchedule(timePeriodDto);
