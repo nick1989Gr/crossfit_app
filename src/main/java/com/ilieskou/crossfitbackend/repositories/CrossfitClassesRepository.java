@@ -17,10 +17,21 @@ public interface CrossfitClassesRepository extends JpaRepository<CrossfitClass, 
                     "c.crossfit_class_type as classType, " +
                     "c.crossfit_class_ts as ts, " +
                     "cast(c.crossfit_class_ts as date) as classDate, " +
-                    "cast(c.crossfit_class_ts  as time) as classTime " +
-                    "FROM crossfit_classes as c  " +
-                    "WHERE c.crossfit_class_ts>=CAST(:start_time AS TIMESTAMP)  " +
-                    "and c.crossfit_class_ts<=CAST(:end_time AS TIMESTAMP)", nativeQuery = true)
+                    "cast(c.crossfit_class_ts  as time) as classTime, " +
+                    "FREE_SLOTS.availableSlots " +
+            "FROM crossfit_classes as c  " +
+            "JOIN (" +
+                    "SELECT CLASSES.crossfit_class_id, " +
+                           "COUNT(CLASSES_ATHLETES.crossfit_class_id) as availableSlots\n" +
+                    "FROM crossfit_classes as CLASSES \n" +
+                    "LEFT JOIN crossfit_classes_athletes as CLASSES_ATHLETES " +
+                    "ON CLASSES.crossfit_class_id = CLASSES_ATHLETES.crossfit_class_id " +
+                    "GROUP BY CLASSES.crossfit_class_id" +
+                   ") as FREE_SLOTS " +
+            "ON FREE_SLOTS.crossfit_class_id = c.crossfit_class_id " +
+            "WHERE c.crossfit_class_ts >=CAST(:start_time AS TIMESTAMP)  " +
+            "AND c.crossfit_class_ts <=CAST(:end_time AS TIMESTAMP) " +
+            "ORDER BY crossfitClassId", nativeQuery = true)
     public List<ISchedule> getCrossfitClassesForTimePeriod(
             @Param("start_time") Timestamp start_time,
             @Param("end_time") Timestamp end_time);

@@ -14,4 +14,6 @@ public interface ISchedule {
     Date getClassDate();
 
     Time getClassTime();
+
+    Integer getAvailableSlots();
 }
