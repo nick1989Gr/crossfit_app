@@ -2,6 +2,8 @@ package com.ilieskou.crossfitbackend.controllers;
 
 import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDetailsDto;
 import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDto;
+import com.ilieskou.crossfitbackend.models.dto.TimePeriodDto;
+import com.ilieskou.crossfitbackend.models.projections.ISchedule;
 import com.ilieskou.crossfitbackend.services.CrossfitClassesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +44,12 @@ public class CrossfitClassesController {
             @PathVariable("class_id") final Long classId
     ) {
         return crossfitClassesService.deleteRegistration(athleteId, classId);
+    }
+
+    @GetMapping
+    @RequestMapping("schedule")
+    public List<ISchedule> getSchedule(@RequestBody TimePeriodDto timePeriodDto) {
+        return crossfitClassesService.getSchedule(timePeriodDto);
     }
 }
 

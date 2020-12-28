@@ -4,6 +4,8 @@ import com.ilieskou.crossfitbackend.models.Athlete;
 import com.ilieskou.crossfitbackend.models.CrossfitClass;
 import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDetailsDto;
 import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDto;
+import com.ilieskou.crossfitbackend.models.dto.TimePeriodDto;
+import com.ilieskou.crossfitbackend.models.projections.ISchedule;
 import com.ilieskou.crossfitbackend.repositories.AthletesRepository;
 import com.ilieskou.crossfitbackend.repositories.CrossfitClassesRepository;
 import org.modelmapper.ModelMapper;
@@ -39,6 +41,15 @@ public class CrossfitClassesService {
         CrossfitClass crossfitClass = crossfitClassesRepository.findById(id).get();
         return convertToCrossfitClassDetailsDto(crossfitClass);
     }
+
+
+    public List<ISchedule> getSchedule(TimePeriodDto timePeriodDto) {
+        System.out.println(timePeriodDto.getStart());
+        System.out.println(timePeriodDto.getEnd());
+        return crossfitClassesRepository.getCrossfitClassesForTimePeriod(timePeriodDto.getStart(),
+                timePeriodDto.getEnd());
+    }
+
 
     public CrossfitClassDetailsDto deleteRegistration(Long athleteId, Long classId) {
         Optional<CrossfitClass> crossfitClass = crossfitClassesRepository.findById(classId);
