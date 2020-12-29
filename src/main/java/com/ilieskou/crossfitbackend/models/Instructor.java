@@ -6,13 +6,14 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Entity(name="instructors")
+@Entity(name = "instructors")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Instructor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long instructor_id;
+    @Column(name = "instructor_id")
+    private Long id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -40,12 +41,12 @@ public class Instructor {
         this.bio = bio;
     }
 
-    public Long getInstructor_id() {
-        return instructor_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setInstructor_id(Long instructor_id) {
-        this.instructor_id = instructor_id;
+    public void setId(Long instructorId) {
+        this.id = instructorId;
     }
 
     public String getFirstName() {

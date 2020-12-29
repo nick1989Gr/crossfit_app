@@ -3,7 +3,7 @@ package com.ilieskou.crossfitbackend.models.dto;
 import java.util.Date;
 
 public class InstructorDto {
-    private Long instructor_id;
+    private Long id;
     private String firstName;
     private String lastName;
     private Date dateOfBirth;
@@ -11,12 +11,12 @@ public class InstructorDto {
     private String phoneNumber;
     private String bio;
 
-    public Long getInstructor_id() {
-        return instructor_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setInstructor_id(Long instructor_id) {
-        this.instructor_id = instructor_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
