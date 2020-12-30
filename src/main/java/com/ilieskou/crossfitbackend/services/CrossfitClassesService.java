@@ -5,6 +5,7 @@ import com.ilieskou.crossfitbackend.models.CrossfitClass;
 import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDetailsDto;
 import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDto;
 import com.ilieskou.crossfitbackend.models.dto.TimePeriodDto;
+import com.ilieskou.crossfitbackend.models.projections.IExtraSchedule;
 import com.ilieskou.crossfitbackend.models.projections.ISchedule;
 import com.ilieskou.crossfitbackend.repositories.AthletesRepository;
 import com.ilieskou.crossfitbackend.repositories.CrossfitClassesRepository;
@@ -44,9 +45,13 @@ public class CrossfitClassesService {
 
 
     public List<ISchedule> getSchedule(TimePeriodDto timePeriodDto) {
-        System.out.println(timePeriodDto.getStart());
-        System.out.println(timePeriodDto.getEnd());
         return crossfitClassesRepository.getCrossfitClassesForTimePeriod(timePeriodDto.getStart(),
+                timePeriodDto.getEnd());
+    }
+
+    public List<IExtraSchedule> getScheduleWithAthleteInfo(Long athleteId, TimePeriodDto timePeriodDto) {
+        return crossfitClassesRepository.getCrossfitClassesForTimePeriodWithAthletePresence(athleteId,
+                timePeriodDto.getStart(),
                 timePeriodDto.getEnd());
     }
 

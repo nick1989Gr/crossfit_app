@@ -3,6 +3,7 @@ package com.ilieskou.crossfitbackend.controllers;
 import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDetailsDto;
 import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDto;
 import com.ilieskou.crossfitbackend.models.dto.TimePeriodDto;
+import com.ilieskou.crossfitbackend.models.projections.IExtraSchedule;
 import com.ilieskou.crossfitbackend.models.projections.ISchedule;
 import com.ilieskou.crossfitbackend.services.CrossfitClassesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,13 @@ public class CrossfitClassesController {
     @RequestMapping("schedule")
     public List<ISchedule> getSchedule(@RequestBody TimePeriodDto timePeriodDto) {
         return crossfitClassesService.getSchedule(timePeriodDto);
+    }
+
+    @PostMapping
+    @RequestMapping("schedule/{athlete_id}")
+    public List<IExtraSchedule> getScheduleWithAthleteInfo(@PathVariable("athlete_id") final Long athleteId,
+                                                           @RequestBody TimePeriodDto timePeriodDto) {
+        return crossfitClassesService.getScheduleWithAthleteInfo(athleteId, timePeriodDto);
     }
 }
 
