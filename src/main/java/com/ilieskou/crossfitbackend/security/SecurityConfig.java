@@ -21,9 +21,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .mvcMatchers("/api/v1/athletes").permitAll()
+                .mvcMatchers("/api/v1/athletes").authenticated()
                 .mvcMatchers("/api/v1/instructors").authenticated()
-                .mvcMatchers("/api/v1/classes").hasAuthority("SCOPE_read:classes")
+                .mvcMatchers("/api/v1/classes/schedule/*").authenticated()//hasAuthority("SCOPE_read:classes")
                 .and().cors()
                 .and().oauth2ResourceServer().jwt();
     }
@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     JwtDecoder jwtDecoder() {
         /*
         By default, Spring Security does not validate the "aud" claim of the token, to ensure that this token is
-        indeed intended for our app. Adding our own validator is easy to do:
+        indeed intended for our app.
         */
 
         NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder)
