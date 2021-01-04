@@ -2,6 +2,7 @@ package com.ilieskou.crossfitbackend.controllers;
 
 import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDetailsDto;
 import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDto;
+import com.ilieskou.crossfitbackend.models.dto.CrossfitClassInfoDto;
 import com.ilieskou.crossfitbackend.models.dto.TimePeriodDto;
 import com.ilieskou.crossfitbackend.models.projections.IExtraSchedule;
 import com.ilieskou.crossfitbackend.models.projections.ISchedule;
@@ -28,6 +29,12 @@ public class CrossfitClassesController {
     @RequestMapping("{id}")
     public CrossfitClassDetailsDto get(@PathVariable Long id) {
         return crossfitClassesService.getCrossfitClass(id);
+    }
+
+    @GetMapping
+    @RequestMapping("/info")
+    public List<CrossfitClassInfoDto> get() {
+        return crossfitClassesService.getCrossfitClassesInfo();
     }
 
     @GetMapping

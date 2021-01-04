@@ -2,12 +2,15 @@ package com.ilieskou.crossfitbackend.services;
 
 import com.ilieskou.crossfitbackend.models.Athlete;
 import com.ilieskou.crossfitbackend.models.CrossfitClass;
+import com.ilieskou.crossfitbackend.models.CrossfitClassInfo;
 import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDetailsDto;
 import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDto;
+import com.ilieskou.crossfitbackend.models.dto.CrossfitClassInfoDto;
 import com.ilieskou.crossfitbackend.models.dto.TimePeriodDto;
 import com.ilieskou.crossfitbackend.models.projections.IExtraSchedule;
 import com.ilieskou.crossfitbackend.models.projections.ISchedule;
 import com.ilieskou.crossfitbackend.repositories.AthletesRepository;
+import com.ilieskou.crossfitbackend.repositories.CrossfitClassInfoRepository;
 import com.ilieskou.crossfitbackend.repositories.CrossfitClassesRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,9 @@ public class CrossfitClassesService {
     private CrossfitClassesRepository crossfitClassesRepository;
 
     @Autowired
+    private CrossfitClassInfoRepository crossfitClassesInfoRepository;
+
+    @Autowired
     private AthletesRepository athletesRepository;
 
     public List<CrossfitClassDto> getAllCrossfitClasses() {
@@ -41,6 +47,13 @@ public class CrossfitClassesService {
     public CrossfitClassDetailsDto getCrossfitClass(Long id) {
         CrossfitClass crossfitClass = crossfitClassesRepository.findById(id).get();
         return convertToCrossfitClassDetailsDto(crossfitClass);
+    }
+
+    public List<CrossfitClassInfoDto> getCrossfitClassesInfo() {
+        List<CrossfitClassInfo> crossfitClassesInfo = crossfitClassesInfoRepository.findAll();
+        return crossfitClassesInfo.stream()
+                .map(this::convertToCrossfitClassInfoDto)
+                .collect(Collectors.toList());
     }
 
 
@@ -124,6 +137,10 @@ public class CrossfitClassesService {
 
     private CrossfitClassDetailsDto convertToCrossfitClassDetailsDto(CrossfitClass crossfitClass) {
         return modelMapper.map(crossfitClass, CrossfitClassDetailsDto.class);
+    }
+
+    private CrossfitClassInfoDto convertToCrossfitClassInfoDto(CrossfitClassInfo crossfitClassInfo) {
+        return modelMapper.map(crossfitClassInfo, CrossfitClassInfoDto.class);
     }
 
 
