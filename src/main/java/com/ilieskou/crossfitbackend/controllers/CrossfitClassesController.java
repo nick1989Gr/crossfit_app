@@ -30,7 +30,7 @@ public class CrossfitClassesController {
         return crossfitClassesService.getCrossfitClass(id);
     }
 
-    @PostMapping
+    @GetMapping
     @RequestMapping(path = "registration/{athlete_id}/{class_id}")
     public CrossfitClassDetailsDto registerAthleteToClass(
             @PathVariable("athlete_id") final Long athleteId,

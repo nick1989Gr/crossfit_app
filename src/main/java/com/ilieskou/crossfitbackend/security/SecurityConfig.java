@@ -2,6 +2,7 @@ package com.ilieskou.crossfitbackend.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -21,9 +22,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .mvcMatchers("/api/v1/athletes").authenticated()
-                .mvcMatchers("/api/v1/instructors").authenticated()
-                .mvcMatchers("/api/v1/classes/schedule/*").authenticated()//hasAuthority("SCOPE_read:classes")
+                .mvcMatchers(HttpMethod.GET, "/api/v1/athletes").authenticated()
+                .mvcMatchers(HttpMethod.GET, "/api/v1/athletes/*").authenticated()
+                .mvcMatchers(HttpMethod.DELETE, "/api/v1/athletes/*").authenticated()
+                .mvcMatchers(HttpMethod.POST, "/api/v1/athletes").authenticated()
+                .mvcMatchers(HttpMethod.GET, "/api/v1/instructors").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/api/v1/instructors/*").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/api/v1/classes").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/api/v1/classes/*").authenticated()
+                .mvcMatchers(HttpMethod.GET, "/api/v1/classes/registration/*/*").authenticated()
+                .mvcMatchers(HttpMethod.DELETE, "/api/v1/classes/registration/*/*").authenticated()
+                .mvcMatchers(HttpMethod.POST, "/api/v1/classes/schedule").authenticated()//hasAuthority("SCOPE_read:classes")
+                .mvcMatchers(HttpMethod.POST, "/api/v1/classes/schedule/*").authenticated()
                 .and().cors()
                 .and().oauth2ResourceServer().jwt();
     }
