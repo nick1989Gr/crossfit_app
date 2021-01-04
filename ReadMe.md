@@ -32,3 +32,20 @@ following enviromental variables:
 | POSTGRES_USERNAME          | The username you use to access the PostGreSQL server                                            |
 | POSTGRES_PSW               | The password matching the username from the previous  filed for accessing the PostGreSQL server |
 | DB_URL                     | This field will look like this: DB_URL=jdbc:postgresql://localhost:5432/crossfit_app            |
+
+## Authentication
+
+In this project we use Auth0 services to do authentication using OAuth2. There are two properties that you should change
+in order to use this authentication way:
+
+```
+// Replace the auth0 audience with your API doimain.
+auth0.audience=http://localhost:9090/
+// Place here the issuer-uri from your Auth0 account
+spring.security.oauth2.resourceserver.jwt.issuer-uri=https://crossfitapp-dev.eu.auth0.com/
+```
+
+For creating an account on Auth0 go to www.auth0.com and sign up. Once you have your own 
+account go to your dashboard and select APIs from the menu on the left. Then press create API. 
+When creating an API you will need to give a name and an identifier. The identifier will be your audience. 
+
