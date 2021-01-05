@@ -22,9 +22,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/api/v1/athletes/*").authenticated()
-                .mvcMatchers(HttpMethod.GET, "/api/v1/athletes").authenticated()
                 .mvcMatchers(HttpMethod.DELETE, "/api/v1/athletes/*").authenticated()
+                .mvcMatchers(HttpMethod.GET, "/api/v1/athletes").authenticated()
                 .mvcMatchers(HttpMethod.POST, "/api/v1/athletes").authenticated()
                 .mvcMatchers(HttpMethod.GET, "/api/v1/instructors/*").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/api/v1/instructors").permitAll()
