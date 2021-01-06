@@ -47,7 +47,7 @@ public class CrossfitClassesController {
             @ApiResponse(responseCode = "500", description = "No value present because of wrong class id",
                     content = @Content)})
     @GetMapping
-    @RequestMapping("{id}")
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public CrossfitClassDetailsDto get(@PathVariable Long id) {
         return crossfitClassesService.getCrossfitClass(id);
     }
@@ -58,7 +58,7 @@ public class CrossfitClassesController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = CrossfitClassInfoDto.class))})})
     @GetMapping
-    @RequestMapping("/info")
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
     public List<CrossfitClassInfoDto> get() {
         return crossfitClassesService.getCrossfitClassesInfo();
     }
@@ -75,7 +75,7 @@ public class CrossfitClassesController {
             @ApiResponse(responseCode = "404", description = "Athlete or class id was not correct",
                     content = @Content)})
     @GetMapping
-    @RequestMapping(path = "registration/{athlete_id}/{class_id}")
+    @RequestMapping(value = "registration/{athlete_id}/{class_id}", method = RequestMethod.GET)
     public CrossfitClassDetailsDto registerAthleteToClass(
             @PathVariable("athlete_id") final Long athleteId,
             @PathVariable("class_id") final Long classId
@@ -92,7 +92,7 @@ public class CrossfitClassesController {
                     content = @Content),
             @ApiResponse(responseCode = "406", description = "Class is full or athlete is already registered or athlete was not registered to the specific class",
                     content = @Content)})
-    @DeleteMapping(value = "registration/{athlete_id}/{class_id}")
+    @RequestMapping(value = "registration/{athlete_id}/{class_id}", method = RequestMethod.DELETE)
     public CrossfitClassDetailsDto deleteRegistrationAthleteToClass(
             @PathVariable("athlete_id") final Long athleteId,
             @PathVariable("class_id") final Long classId
@@ -108,7 +108,7 @@ public class CrossfitClassesController {
             @ApiResponse(responseCode = "401", description = "Unauthorized request",
                     content = @Content)})
     @PostMapping
-    @RequestMapping("schedule")
+    @RequestMapping(value = "schedule", method = RequestMethod.POST)
     public List<ISchedule> getSchedule(@RequestBody TimePeriodDto timePeriodDto) {
         return crossfitClassesService.getSchedule(timePeriodDto);
     }
@@ -121,7 +121,7 @@ public class CrossfitClassesController {
             @ApiResponse(responseCode = "401", description = "Unauthorized request",
                     content = @Content)})
     @PostMapping
-    @RequestMapping("schedule/{athlete_id}")
+    @RequestMapping(value = "schedule/{athlete_id}", method = RequestMethod.POST)
     public List<IExtraSchedule> getScheduleWithAthleteInfo(@PathVariable("athlete_id") final Long athleteId,
                                                            @RequestBody TimePeriodDto timePeriodDto) {
         return crossfitClassesService.getScheduleWithAthleteInfo(athleteId, timePeriodDto);

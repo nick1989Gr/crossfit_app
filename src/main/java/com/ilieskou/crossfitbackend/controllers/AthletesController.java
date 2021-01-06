@@ -43,7 +43,7 @@ public class AthletesController {
                     content = @Content)})
 
     @GetMapping
-    @RequestMapping("{id}")
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public AthleteDto getAthlete(@PathVariable Long id) {
         return athletesService.getAthlete(id);
     }

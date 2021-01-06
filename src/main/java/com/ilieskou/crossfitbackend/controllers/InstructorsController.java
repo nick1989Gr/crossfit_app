@@ -39,7 +39,7 @@ public class InstructorsController {
             @ApiResponse(responseCode = "500", description = "No value present because of wrong instructor id",
                     content = @Content)})
     @GetMapping
-    @RequestMapping("{id}")
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public InstructorDto getInstructor(@PathVariable Long id) {
         return instructorsService.getInstructor(id);
     }
