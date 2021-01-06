@@ -1,6 +1,6 @@
 package com.ilieskou.crossfitbackend.controllers;
 
-import com.ilieskou.crossfitbackend.models.dto.InstructorDto;
+import com.ilieskou.crossfitbackend.controllers.dto.InstructorDto;
 import com.ilieskou.crossfitbackend.services.InstructorsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

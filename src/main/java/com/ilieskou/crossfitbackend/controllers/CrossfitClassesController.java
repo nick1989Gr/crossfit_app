@@ -1,11 +1,11 @@
 package com.ilieskou.crossfitbackend.controllers;
 
-import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDetailsDto;
-import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDto;
-import com.ilieskou.crossfitbackend.models.dto.CrossfitClassInfoDto;
-import com.ilieskou.crossfitbackend.models.dto.TimePeriodDto;
-import com.ilieskou.crossfitbackend.models.projections.IExtraSchedule;
-import com.ilieskou.crossfitbackend.models.projections.ISchedule;
+import com.ilieskou.crossfitbackend.controllers.dto.CrossfitClassDetailsDto;
+import com.ilieskou.crossfitbackend.controllers.dto.CrossfitClassDto;
+import com.ilieskou.crossfitbackend.controllers.dto.CrossfitClassInfoDto;
+import com.ilieskou.crossfitbackend.controllers.dto.TimePeriodDto;
+import com.ilieskou.crossfitbackend.repositories.projections.IExtraSchedule;
+import com.ilieskou.crossfitbackend.repositories.projections.ISchedule;
 import com.ilieskou.crossfitbackend.services.CrossfitClassesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

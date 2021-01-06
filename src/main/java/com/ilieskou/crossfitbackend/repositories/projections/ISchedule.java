@@ -1,4 +1,4 @@
-package com.ilieskou.crossfitbackend.models.projections;
+package com.ilieskou.crossfitbackend.repositories.projections;
 
 import java.sql.Date;
 import java.sql.Time;

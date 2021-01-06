@@ -1,6 +1,6 @@
 package com.ilieskou.crossfitbackend.controllers;
 
-import com.ilieskou.crossfitbackend.models.dto.AthleteDto;
+import com.ilieskou.crossfitbackend.controllers.dto.AthleteDto;
 import com.ilieskou.crossfitbackend.services.AthletesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -41,7 +41,7 @@ public class AthletesController {
                     content = @Content),
             @ApiResponse(responseCode = "401", description = "Unauthorized request",
                     content = @Content)})
-    
+
     @GetMapping
     @RequestMapping("{id}")
     public AthleteDto getAthlete(@PathVariable Long id) {

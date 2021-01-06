@@ -1,7 +1,7 @@
 package com.ilieskou.crossfitbackend.services;
 
+import com.ilieskou.crossfitbackend.controllers.dto.InstructorDto;
 import com.ilieskou.crossfitbackend.models.Instructor;
-import com.ilieskou.crossfitbackend.models.dto.InstructorDto;
 import com.ilieskou.crossfitbackend.repositories.InstructorsRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
 package com.ilieskou.crossfitbackend.repositories;
 
 import com.ilieskou.crossfitbackend.models.CrossfitClass;
-import com.ilieskou.crossfitbackend.models.projections.IExtraSchedule;
-import com.ilieskou.crossfitbackend.models.projections.ISchedule;
+import com.ilieskou.crossfitbackend.repositories.projections.IExtraSchedule;
+import com.ilieskou.crossfitbackend.repositories.projections.ISchedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

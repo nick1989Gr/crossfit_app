@@ -1,7 +1,7 @@
 package com.ilieskou.crossfitbackend.services;
 
+import com.ilieskou.crossfitbackend.controllers.dto.AthleteDto;
 import com.ilieskou.crossfitbackend.models.Athlete;
-import com.ilieskou.crossfitbackend.models.dto.AthleteDto;
 import com.ilieskou.crossfitbackend.repositories.AthletesRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.ilieskou.crossfitbackend.models.dto;
+package com.ilieskou.crossfitbackend.controllers.dto;
 
 import java.sql.Timestamp;
 

@@ -1,17 +1,17 @@
 package com.ilieskou.crossfitbackend.services;
 
+import com.ilieskou.crossfitbackend.controllers.dto.CrossfitClassDetailsDto;
+import com.ilieskou.crossfitbackend.controllers.dto.CrossfitClassDto;
+import com.ilieskou.crossfitbackend.controllers.dto.CrossfitClassInfoDto;
+import com.ilieskou.crossfitbackend.controllers.dto.TimePeriodDto;
 import com.ilieskou.crossfitbackend.models.Athlete;
 import com.ilieskou.crossfitbackend.models.CrossfitClass;
 import com.ilieskou.crossfitbackend.models.CrossfitClassInfo;
-import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDetailsDto;
-import com.ilieskou.crossfitbackend.models.dto.CrossfitClassDto;
-import com.ilieskou.crossfitbackend.models.dto.CrossfitClassInfoDto;
-import com.ilieskou.crossfitbackend.models.dto.TimePeriodDto;
-import com.ilieskou.crossfitbackend.models.projections.IExtraSchedule;
-import com.ilieskou.crossfitbackend.models.projections.ISchedule;
 import com.ilieskou.crossfitbackend.repositories.AthletesRepository;
 import com.ilieskou.crossfitbackend.repositories.CrossfitClassInfoRepository;
 import com.ilieskou.crossfitbackend.repositories.CrossfitClassesRepository;
+import com.ilieskou.crossfitbackend.repositories.projections.IExtraSchedule;
+import com.ilieskou.crossfitbackend.repositories.projections.ISchedule;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
