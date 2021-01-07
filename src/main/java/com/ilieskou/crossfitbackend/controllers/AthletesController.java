@@ -29,6 +29,7 @@ public class AthletesController {
                     content = @Content)})
     @GetMapping
     public List<AthleteDto> getAllAthletes() {
+
         return athletesService.getAllAthletes();
     }
 
@@ -58,8 +59,8 @@ public class AthletesController {
             @ApiResponse(responseCode = "401", description = "Unauthorized request",
                     content = @Content)})
     @GetMapping
-    @RequestMapping(value = "{email}", method = RequestMethod.GET)
-    public AthleteDto getAthleteByEmail(@RequestParam("email") String email) {
+    @RequestMapping(value = "email", method = RequestMethod.GET)
+    public AthleteDto getAthleteByEmail(@RequestParam(value = "email") String email) {
         return athletesService.getAthlete(email);
     }
 
