@@ -41,11 +41,26 @@ public class AthletesController {
                     content = @Content),
             @ApiResponse(responseCode = "401", description = "Unauthorized request",
                     content = @Content)})
-
     @GetMapping
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public AthleteDto getAthlete(@PathVariable Long id) {
+
         return athletesService.getAthlete(id);
+    }
+
+    @Operation(summary = "Get an athlete's data by email")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Athlete found and returned",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = AthleteDto.class))}),
+            @ApiResponse(responseCode = "500", description = "No value present because of wrong athlete email",
+                    content = @Content),
+            @ApiResponse(responseCode = "401", description = "Unauthorized request",
+                    content = @Content)})
+    @GetMapping
+    @RequestMapping(value = "{email}", method = RequestMethod.GET)
+    public AthleteDto getAthleteByEmail(@RequestParam("email") String email) {
+        return athletesService.getAthlete(email);
     }
 
     @Operation(summary = "Add an athlete to the database")

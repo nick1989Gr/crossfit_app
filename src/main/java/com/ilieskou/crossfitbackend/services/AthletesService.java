@@ -31,6 +31,11 @@ public class AthletesService {
         return modelMapper.map(athlete, AthleteDto.class);
     }
 
+    public AthleteDto getAthlete(String email) {
+        Athlete athlete = athletesRepository.findAthleteByEmail(email);
+        return modelMapper.map(athlete, AthleteDto.class);
+    }
+
     public AthleteDto create(final AthleteDto athleteDto) {
         Athlete athlete = convertToEntity(athleteDto);
         Athlete athleteCreated = athletesRepository.saveAndFlush(athlete);
