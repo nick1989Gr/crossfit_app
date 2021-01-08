@@ -23,19 +23,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                .mvcMatchers(HttpMethod.GET, "/api/v1/athletes/*").authenticated()
-                .mvcMatchers(HttpMethod.DELETE, "/api/v1/athletes/*").authenticated()
-                .mvcMatchers(HttpMethod.GET, "/api/v1/athletes").authenticated()
-                .mvcMatchers(HttpMethod.POST, "/api/v1/athletes").authenticated()
                 .mvcMatchers(HttpMethod.GET, "/api/v1/instructors/*").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/api/v1/instructors").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/api/v1/classes/info").permitAll()
-                .mvcMatchers(HttpMethod.GET, "/api/v1/classes/{\\d+}").authenticated()
                 .mvcMatchers(HttpMethod.GET, "/api/v1/classes").permitAll()
-                .mvcMatchers(HttpMethod.GET, "/api/v1/classes/registration/*/*").authenticated()
-                .mvcMatchers(HttpMethod.DELETE, "/api/v1/classes/registration/*/*").authenticated()
-                .mvcMatchers(HttpMethod.POST, "/api/v1/classes/schedule/*").authenticated()
-                .mvcMatchers(HttpMethod.POST, "/api/v1/classes/schedule").authenticated()//hasAuthority("SCOPE_read:classes")
+                .mvcMatchers(HttpMethod.GET, "/api/v1/athletes").hasAuthority("SCOPE_read:athletes")
+                .anyRequest().authenticated()
                 .and().cors()
                 .and().oauth2ResourceServer().jwt();
     }
