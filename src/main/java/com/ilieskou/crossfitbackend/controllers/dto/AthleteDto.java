@@ -11,6 +11,19 @@ public class AthleteDto {
     private String email;
     private String phoneNumber;
 
+    public AthleteDto(Long id, String firstName, String lastName, Date dateOfBirth, Date enrolledDate, String email, String phoneNumber) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.enrolledDate = enrolledDate;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public AthleteDto() {
+    }
+
     public Long getId() {
         return id;
     }
