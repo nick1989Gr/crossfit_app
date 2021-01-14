@@ -47,5 +47,10 @@ spring.security.oauth2.resourceserver.jwt.issuer-uri=https://crossfitapp-dev.eu.
 
 For creating an account on Auth0 go to www.auth0.com and sign up. Once you have your own 
 account go to your dashboard and select APIs from the menu on the left. Then press create API. 
-When creating an API you will need to give a name and an identifier. The identifier will be your audience. 
+When creating an API you will need to give a name and an identifier. The identifier will be your audience.
 
+For Unit testing we use [Oauth Client Credentials flow](https://auth0.com/docs/api/authentication#client-credentials). 
+To do that, register a Machine to Machine Application, in the Auth0 dashboard and then subsequently use 
+in your unit tests the Client ID and Client Secret of that application when making the request 
+and pass those along in the client_id and client_secret parameters respectively. 
+Also include the Audience for the API you want to call. 
