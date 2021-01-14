@@ -38,8 +38,7 @@ public class InstructorsController {
                             schema = @Schema(implementation = InstructorDto.class))}),
             @ApiResponse(responseCode = "500", description = "No value present because of wrong instructor id",
                     content = @Content)})
-    @GetMapping
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    @GetMapping("{id}")
     public InstructorDto getInstructor(@PathVariable Long id) {
         return instructorsService.getInstructor(id);
     }

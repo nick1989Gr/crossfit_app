@@ -42,8 +42,7 @@ public class AthletesController {
                     content = @Content),
             @ApiResponse(responseCode = "401", description = "Unauthorized request",
                     content = @Content)})
-    @GetMapping
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    @GetMapping("{id}")
     public AthleteDto getAthlete(@PathVariable Long id) {
 
         return athletesService.getAthlete(id);
@@ -58,8 +57,7 @@ public class AthletesController {
                     content = @Content),
             @ApiResponse(responseCode = "401", description = "Unauthorized request",
                     content = @Content)})
-    @GetMapping
-    @RequestMapping(value = "email", method = RequestMethod.GET)
+    @GetMapping("email")
     public AthleteDto getAthleteByEmail(@RequestParam(value = "email") String email) {
         return athletesService.getAthlete(email);
     }
@@ -84,7 +82,7 @@ public class AthletesController {
                     content = @Content),
             @ApiResponse(responseCode = "401", description = "Unauthorized request",
                     content = @Content)})
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    @DeleteMapping("{id}")
     public void delete(@PathVariable Long id) {
         athletesService.delete(id);
     }

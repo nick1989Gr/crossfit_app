@@ -74,8 +74,7 @@ public class CrossfitClassesController {
                     content = @Content),
             @ApiResponse(responseCode = "404", description = "Athlete or class id was not correct",
                     content = @Content)})
-    @GetMapping
-    @RequestMapping(value = "registration/{athlete_id}/{class_id}", method = RequestMethod.GET)
+    @GetMapping("registration/{athlete_id}/{class_id}")
     public CrossfitClassDetailsDto registerAthleteToClass(
             @PathVariable("athlete_id") final Long athleteId,
             @PathVariable("class_id") final Long classId
@@ -92,7 +91,7 @@ public class CrossfitClassesController {
                     content = @Content),
             @ApiResponse(responseCode = "406", description = "Class is full or athlete is already registered or athlete was not registered to the specific class",
                     content = @Content)})
-    @RequestMapping(value = "registration/{athlete_id}/{class_id}", method = RequestMethod.DELETE)
+    @DeleteMapping("registration/{athlete_id}/{class_id}")
     public CrossfitClassDetailsDto deleteRegistrationAthleteToClass(
             @PathVariable("athlete_id") final Long athleteId,
             @PathVariable("class_id") final Long classId
@@ -107,8 +106,7 @@ public class CrossfitClassesController {
                             schema = @Schema(implementation = ISchedule.class))}),
             @ApiResponse(responseCode = "401", description = "Unauthorized request",
                     content = @Content)})
-    @PostMapping
-    @RequestMapping(value = "schedule", method = RequestMethod.POST)
+    @PostMapping("schedule")
     public List<ISchedule> getSchedule(@RequestBody TimePeriodDto timePeriodDto) {
         return crossfitClassesService.getSchedule(timePeriodDto);
     }
@@ -120,8 +118,7 @@ public class CrossfitClassesController {
                             schema = @Schema(implementation = IExtraSchedule.class))}),
             @ApiResponse(responseCode = "401", description = "Unauthorized request",
                     content = @Content)})
-    @PostMapping
-    @RequestMapping(value = "schedule/{athlete_id}", method = RequestMethod.POST)
+    @PostMapping("schedule/{athlete_id}")
     public List<IExtraSchedule> getScheduleWithAthleteInfo(@PathVariable("athlete_id") final Long athleteId,
                                                            @RequestBody TimePeriodDto timePeriodDto) {
         return crossfitClassesService.getScheduleWithAthleteInfo(athleteId, timePeriodDto);
