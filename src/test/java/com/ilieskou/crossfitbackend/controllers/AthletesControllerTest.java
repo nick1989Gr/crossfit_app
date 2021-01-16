@@ -1,59 +1,77 @@
 package com.ilieskou.crossfitbackend.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ilieskou.crossfitbackend.controllers.dto.AthleteDto;
 import com.ilieskou.crossfitbackend.services.AthletesService;
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.JacksonJsonParser;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest
-@AutoConfigureMockMvc
+@RunWith(SpringRunner.class)
 public class AthletesControllerTest {
 
+    MockMvc mockMvc;
+
+    @Autowired
+    protected WebApplicationContext wac;
+
+    @Autowired
+    private AthletesController controller;
 
     @MockBean
     private AthletesService service;
 
-    @Autowired
-    private MockMvc mockMvc;
+    private AthleteDto mockAthlete;
 
-    static final int AUTHORIZATION_ERROR_CODE = 401;
-    static final int FORBIDDEN_ERROR_CODE = 403;
-    private static final String WRONG_TOKEN = "This is the wrong token";
+
+    @Before
+    public void setup() {
+        this.mockMvc = standaloneSetup(this.controller).build();
+        this.mockAthlete = getAthleteDtoMock();
+    }
 
     @Test
-    @DisplayName("GET athletes - Found and results are correct")
-    void testGetAthletesFound() throws Exception {
+    public void testGetAthleteById() throws Exception {
+        doReturn(mockAthlete).when(service).getAthlete(mockAthlete.getId());
 
-        String accessToken = getAccessTokenWithReadAthletesScope();
+        mockMvc.perform(get("/api/v1/athletes/{id}", mockAthlete.getId())
+                .header("Content-Type", "application/json"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(mockAthlete.getId()))
+                .andExpect(jsonPath("$.firstName").value(mockAthlete.getFirstName()))
+                .andExpect(jsonPath("$.lastName").value(mockAthlete.getLastName()))
+                .andExpect(jsonPath("$.email").value(mockAthlete.getEmail()))
+                .andExpect(jsonPath("$.phoneNumber").value(mockAthlete.getPhoneNumber()));
+    }
+
+    @Test
+    public void testGetAthletes() throws Exception {
         List<AthleteDto> mockAthletes = getAthletesDtoMock();
         doReturn(mockAthletes).when(service).getAllAthletes();
 
         mockMvc.perform(get("/api/v1/athletes")
-                .header("Authorization", "Bearer " + accessToken)
                 .header("Content-Type", "application/json"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -71,45 +89,11 @@ public class AthletesControllerTest {
     }
 
     @Test
-    @DisplayName("GET athletes - Not Authorized due to no scope")
-    void testGetAthletesNotAuthorizedNoScope() throws Exception {
+    public void testGetAthleteByemail() throws Exception {
+        doReturn(mockAthlete).when(service).getAthlete(mockAthlete.getEmail());
 
-        String accessToken = getAccessToken();
-        List<AthleteDto> mockAthletes = getAthletesDtoMock();
-        doReturn(mockAthletes).when(service).getAllAthletes();
-
-        mockMvc.perform(get("/api/v1/athletes")
-                .header("Authorization", "Bearer " + accessToken)
+        mockMvc.perform(get("/api/v1/athletes/email?email=" + mockAthlete.getEmail())
                 .header("Content-Type", "application/json"))
-                .andDo(print())
-                .andExpect(status().is(FORBIDDEN_ERROR_CODE));
-    }
-
-    @Test
-    @DisplayName("GET athletes - Not Authorized no token")
-    void testGetAthletesNotAuthorizedNoToken() throws Exception {
-
-        List<AthleteDto> mockAthletes = getAthletesDtoMock();
-        doReturn(mockAthletes).when(service).getAllAthletes();
-
-        mockMvc.perform(get("/api/v1/athletes")
-                .header("Content-Type", "application/json"))
-                .andDo(print())
-                .andExpect(status().is(AUTHORIZATION_ERROR_CODE));
-    }
-
-    @Test
-    @DisplayName("GET athlete/1 - Found and results are correct")
-    void testGetAthleteByIdFound() throws Exception {
-
-        String accessToken = getAccessToken();
-        AthleteDto mockAthlete = getAthleteDtoMock();
-        doReturn(mockAthlete).when(service).getAthlete(mockAthlete.getId());
-
-        mockMvc.perform(get("/api/v1/athletes/{id}", mockAthlete.getId())
-                .header("Authorization", "Bearer " + accessToken)
-                .header("Content-Type", "application/json"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(mockAthlete.getId()))
                 .andExpect(jsonPath("$.firstName").value(mockAthlete.getFirstName()))
@@ -119,121 +103,30 @@ public class AthletesControllerTest {
     }
 
     @Test
-    @DisplayName("GET athlete/1 - Unathorized request due to no access token")
-    void testGetAthleteByIdNotAuthorized() throws Exception {
-
-        AthleteDto mockAthlete = getAthleteDtoMock();
-        doReturn(mockAthlete).when(service).getAthlete(mockAthlete.getId());
-
-        mockMvc.perform(get("/api/v1/athletes/{id}", mockAthlete.getId())
-                .header("Content-Type", "application/json"))
-                .andDo(print())
-                .andExpect(status().is(AUTHORIZATION_ERROR_CODE));
-    }
-
-    @Test
-    @DisplayName("GET athlete/1 - Unathorized request due to wrong access token")
-    void testGetAthleteByIdNotAuthorizedDueToWrongAccessToken() throws Exception {
-
-        String accessToken = WRONG_TOKEN;
-        AthleteDto mockAthlete = getAthleteDtoMock();
-        doReturn(mockAthlete).when(service).getAthlete(mockAthlete.getId());
-
-        mockMvc.perform(get("/api/v1/athletes/{id}", mockAthlete.getId())
-                .header("Authorization", "Bearer " + accessToken)
-                .header("Content-Type", "application/json"))
-                .andDo(print())
-                .andExpect(status().is(AUTHORIZATION_ERROR_CODE));
-    }
-
-
-    @Test
-    @DisplayName("GET athlete/email?email=abc@gmail.com - Found and results are correct")
-    void testGetAthleteByemailFound() throws Exception {
-
-        String accessToken = getAccessToken();
-        AthleteDto mockAthlete = getAthleteDtoMock();
-        doReturn(mockAthlete).when(service).getAthlete(mockAthlete.getEmail());
-
-        mockMvc.perform(get("/api/v1/athletes/email?email=" + mockAthlete.getEmail())
-                .header("Authorization", "Bearer " + accessToken)
-                .header("Content-Type", "application/json"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(mockAthlete.getId()))
-                .andExpect(jsonPath("$.firstName").value(mockAthlete.getFirstName()))
-                .andExpect(jsonPath("$.lastName").value(mockAthlete.getLastName()))
-                .andExpect(jsonPath("$.email").value(mockAthlete.getEmail()))
-                .andExpect(jsonPath("$.phoneNumber").value(mockAthlete.getPhoneNumber()));
-    }
-
-    @Test
-    @DisplayName("GET athlete/email?email=abc@gmail.com - Authorization error due to wrong token")
-    void testGetAthleteByemailAuthorizationErrorDueToWrongToken() throws Exception {
-
-        String accessToken = WRONG_TOKEN;
-        AthleteDto mockAthlete = getAthleteDtoMock();
-        doReturn(mockAthlete).when(service).getAthlete(mockAthlete.getEmail());
-
-        mockMvc.perform(get("/api/v1/athletes/email?email=" + mockAthlete.getEmail())
-                .header("Authorization", "Bearer " + accessToken)
-                .header("Content-Type", "application/json"))
-                .andDo(print())
-                .andExpect(status().is(AUTHORIZATION_ERROR_CODE));
-    }
-
-    @Test
-    @DisplayName("GET athlete/email?email=abc@gmail.com - Authorization error")
-    void testGetAthleteByemailAuthorizationError() throws Exception {
-
-        AthleteDto mockAthlete = getAthleteDtoMock();
-        doReturn(mockAthlete).when(service).getAthlete("abc@gmail.com");
-
-        mockMvc.perform(get("/api/v1/athletes/email?email=" + mockAthlete.getEmail())
-                .header("Content-Type", "application/json"))
-                .andDo(print())
-                .andExpect(status().is(AUTHORIZATION_ERROR_CODE));
-    }
-
-
-    @Test
-    @DisplayName("DELETE athlete/1 - Deleted")
-    void testDeleteAthleteById() throws Exception {
-
-        String accessToken = getAccessToken();
-        AthleteDto mockAthlete = getAthleteDtoMock();
+    public void testDeleteAthleteById() throws Exception {
         doNothing().when(service).delete(mockAthlete.getId());
 
         mockMvc.perform(delete("/api/v1/athletes/{id}", mockAthlete.getId())
-                .header("Authorization", "Bearer " + accessToken)
                 .header("Content-Type", "application/json"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
-    @DisplayName("DELETE athlete/1 - Not Authorized")
-    void testDeleteAthleteByIdNotAuthorized() throws Exception {
-        final Long id = Long.valueOf(1);
-        doNothing().when(service).delete(id);
+    public void testPostNewAthlete() throws Exception {
+        String athleteString = new ObjectMapper().writeValueAsString(mockAthlete);
+        doReturn(mockAthlete).when(service).create(any());
 
-        mockMvc.perform(delete("/api/v1/athletes/{id}", id))
+        mockMvc.perform(post("/api/v1/athletes")
+                .header("Content-Type", "application/json")
+                .content(athleteString))
                 .andDo(print())
-                .andExpect(status().is(FORBIDDEN_ERROR_CODE));
-    }
-
-    @Test
-    @DisplayName("DELETE athlete/1 - Not Authorized due to wrong token")
-    void testDeleteAthleteByIdNotAuthorizedDueToWrongToken() throws Exception {
-        String accessToken = WRONG_TOKEN;
-        final Long id = Long.valueOf(1);
-        doNothing().when(service).delete(id);
-
-        mockMvc.perform(delete("/api/v1/athletes/{id}", id)
-                .header("Authorization", "Bearer " + accessToken)
-                .header("Content-Type", "application/json"))
-                .andDo(print())
-                .andExpect(status().is(FORBIDDEN_ERROR_CODE));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(mockAthlete.getId()))
+                .andExpect(jsonPath("$.firstName").value(mockAthlete.getFirstName()))
+                .andExpect(jsonPath("$.lastName").value(mockAthlete.getLastName()))
+                .andExpect(jsonPath("$.email").value(mockAthlete.getEmail()))
+                .andExpect(jsonPath("$.phoneNumber").value(mockAthlete.getPhoneNumber()));
     }
 
     private AthleteDto getAthleteDtoMock() {
@@ -250,33 +143,5 @@ public class AthletesControllerTest {
                                 "Joe", "Doe", new Date(), new Date(), "def@gmail.com", "456")});
 
     }
-
-    private String getAccessTokenWithReadAthletesScope() {
-        HttpResponse<String> response = Unirest.post("https://crossfitapp-dev.eu.auth0.com/oauth/token")
-                .header("content-type", "application/json")
-                .body("{\"client_id\":\"" + System.getenv("AUTH0_CLIENT_ID_WITH_READ_ATHLETES_SCOPE")
-                        + "\",\"client_secret\":\"" + System.getenv("AUTH0_CLIENT_SECRET_WITH_READ_ATHLETES_SCOPE")
-                        + "\",\"audience\":\"" + System.getenv("AUTH0_AUDIENCE")
-                        + "\",\"grant_type\":\"client_credentials\"}")
-                .asString();
-
-        JacksonJsonParser jsonParser = new JacksonJsonParser();
-        String accessToken = jsonParser.parseMap(response.getBody()).get("access_token").toString();
-        return accessToken;
-    }
-
-    private String getAccessToken() {
-        HttpResponse<String> response = Unirest.post("https://crossfitapp-dev.eu.auth0.com/oauth/token")
-                .header("content-type", "application/json")
-                .body("{\"client_id\":\"" + System.getenv("AUTH0_CLIENT_ID")
-                        + "\",\"client_secret\":\"" + System.getenv("AUTH0_CLIENT_SECRET")
-                        + "\",\"audience\":\"" + System.getenv("AUTH0_AUDIENCE")
-                        + "\",\"grant_type\":\"client_credentials\"}")
-                .asString();
-
-
-        JacksonJsonParser jsonParser = new JacksonJsonParser();
-        String accessToken = jsonParser.parseMap(response.getBody()).get("access_token").toString();
-        return accessToken;
-    }
 }
+
