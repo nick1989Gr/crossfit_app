@@ -35,6 +35,16 @@ public class Athlete {
 
     }
 
+    public Athlete(Long id, String firstName, String lastName, Date dateOfBirth, Date enrolledDate, String email, String phoneNumber) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.enrolledDate = enrolledDate;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
+
     public List<CrossfitClass> getCrossfitClasses() {
         return crossfitClasses;
     }
