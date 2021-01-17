@@ -22,7 +22,6 @@ import static org.mockito.Mockito.doReturn;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-//@DataJpaTest
 public class AthletesServiceTest {
 
     @Autowired
