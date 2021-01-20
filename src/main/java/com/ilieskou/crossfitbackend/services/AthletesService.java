@@ -18,6 +18,10 @@ public class AthletesService {
     @Autowired
     private AthletesRepository athletesRepository;
 
+    public AthletesService(ModelMapper modelMapper, AthletesRepository athletesRepository) {
+        this.modelMapper = modelMapper;
+        this.athletesRepository = athletesRepository;
+    }
 
     public List<AthleteDto> getAllAthletes() {
         List<Athlete> athletes = athletesRepository.findAll();

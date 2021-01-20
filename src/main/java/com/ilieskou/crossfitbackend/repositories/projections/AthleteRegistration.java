@@ -1,4 +1,4 @@
-package com.ilieskou.crossfitbackend.repositories;
+package com.ilieskou.crossfitbackend.repositories.projections;
 
 
 public interface AthleteRegistration {
