@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,6 +46,17 @@ public class AthletesControllerIntegrationTest {
 
     private AthleteDto mockAthlete;
     private String accessToken;
+
+    @Value("${auth0.audience}")
+    private String audience;
+    @Value("${auth0.client.id}")
+    private String clientId;
+    @Value("${auth0.client.secret}")
+    private String clientSecret;
+    @Value("${auth0.client.id.with.read.athletes.scope}")
+    private String clientIdWithScope;
+    @Value("${auth0.client.secret.with.read.athletes.scope}")
+    private String clientSecretWithScope;
 
     @BeforeEach
     public void setup() {
@@ -264,9 +276,9 @@ public class AthletesControllerIntegrationTest {
     private String getAccessTokenWithReadAthletesScope() {
         HttpResponse<String> response = Unirest.post("https://crossfitapp-dev.eu.auth0.com/oauth/token")
                 .header("content-type", "application/json")
-                .body("{\"client_id\":\"" + System.getenv("AUTH0_CLIENT_ID_WITH_READ_ATHLETES_SCOPE")
-                        + "\",\"client_secret\":\"" + System.getenv("AUTH0_CLIENT_SECRET_WITH_READ_ATHLETES_SCOPE")
-                        + "\",\"audience\":\"" + System.getenv("AUTH0_AUDIENCE")
+                .body("{\"client_id\":\"" + clientIdWithScope
+                        + "\",\"client_secret\":\"" + clientSecretWithScope
+                        + "\",\"audience\":\"" + audience
                         + "\",\"grant_type\":\"client_credentials\"}")
                 .asString();
 
@@ -278,12 +290,11 @@ public class AthletesControllerIntegrationTest {
     private String getAccessToken() {
         HttpResponse<String> response = Unirest.post("https://crossfitapp-dev.eu.auth0.com/oauth/token")
                 .header("content-type", "application/json")
-                .body("{\"client_id\":\"" + System.getenv("AUTH0_CLIENT_ID")
-                        + "\",\"client_secret\":\"" + System.getenv("AUTH0_CLIENT_SECRET")
-                        + "\",\"audience\":\"" + System.getenv("AUTH0_AUDIENCE")
+                .body("{\"client_id\":\"" + clientId
+                        + "\",\"client_secret\":\"" + clientSecret
+                        + "\",\"audience\":\"" + audience
                         + "\",\"grant_type\":\"client_credentials\"}")
                 .asString();
-
 
         JacksonJsonParser jsonParser = new JacksonJsonParser();
         String accessToken = jsonParser.parseMap(response.getBody()).get("access_token").toString();

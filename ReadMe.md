@@ -25,7 +25,7 @@ flyway.locations=filesystem:src/main/resources/db/migration
 ## Intelij options 
 
 Once you import the Crosffit backend service in Intelij you need to add the 
-following enviromental variables: 
+following enviromental variables if you want to override the existing options.
 
 | Enviromental Variable name | Description                                                                                     |
 |----------------------------|-------------------------------------------------------------------------------------------------|
@@ -49,8 +49,17 @@ For creating an account on Auth0 go to www.auth0.com and sign up. Once you have 
 account go to your dashboard and select APIs from the menu on the left. Then press create API. 
 When creating an API you will need to give a name and an identifier. The identifier will be your audience.
 
-For Unit testing we use [Oauth Client Credentials flow](https://auth0.com/docs/api/authentication#client-credentials). 
+For Integration testing we use [Oauth Client Credentials flow](https://auth0.com/docs/api/authentication#client-credentials). 
 To do that, register a Machine to Machine Application, in the Auth0 dashboard and then subsequently use 
 in your unit tests the Client ID and Client Secret of that application when making the request 
 and pass those along in the client_id and client_secret parameters respectively. 
 Also include the Audience for the API you want to call. 
+
+In our setup the following application properties are overwritten by enviromental variables:
+```
+auth0.client.id=somevalue
+auth0.client.secret=somesecret
+auth0.audience=http://localhost:9090/
+auth0.client.id.with.read.athletes.scope=somevalue
+auth0.client.secret.with.read.athletes.scope=somesecret
+```
