@@ -2,9 +2,54 @@
 
 ## Prepare the PostgreSQL database
 
-.......
-// TODO 
-.......
+### Running a PostgreSQL locally on your computer
+There are two ways to have your PostgreSQL database up and running. 
+One is to install PostgreSQL on your computer. Then you can login and create the 
+database: 
+```
+# First connect to your postgres database. Default username and password 
+# is postgres. The port that postgres runs in 5432
+C:\Projects\temp\postgresql> psql -Upostgres -p 5432
+psql (13.1, server 9.5.24)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+SSL connection (protocol: TLSv1.2, cipher: ECDHE-RSA-AES256-GCM-SHA384, bits: 256, compression: off)
+Type "help" for help.
+
+postgres=#
+# Create the database 
+postgres=# create database crossfit_app;
+```
+Please be aware that you should overwrite the DB_URL, POSTGRES_USERNAME and POSTGRES_PSW 
+variables from the application.properties file. Make sure you have the correct values. 
+
+### Running your postgreSQL as a docker 
+To make life easier I advise you to use a docker image with the PostgreSQL database. 
+You can find a dockerfile in src/main/resources/db. From that directory you can run the 
+following commands: 
+```
+# First we build an image named postgres_9.5 with the postgreSQL database
+docker image build -t postgres_9.5 . 
+# Run the container in the background and route the postgresql database
+# traffic from port 5432 to port 49170 to the local machine
+docker run -d --rm  --name crossfit_db_ctr -p 49170:5432 postgres_9.5
+# Then execute psql (interactive postgresql shell) in the postgresql container, to create the database:
+docker exec -it crossfit_db_ctr psql -h localhost -U docker -c"CREATE DATABASE crossfit_app"
+```
+After this, setup of the development database is ready, and the application can be started. 
+It should execute all migrations steps that have not yet been executed on the database.
+All the migration steps will be executed by Flyway when the SpringBoot application starts. 
+You can test that your docker container runs successfully by trying to connect with any 
+postgreSQL client to localhost:49170 with username and password docker.
+
+Please be aware that you should overwrite the DB_URL, POSTGRES_USERNAME and POSTGRES_PSW 
+variables from the application.properties file. Make sure you have the correct values.
+```
+spring.datasource.url=jdbc:postgresql://localhost:49170/crossfit_app
+spring.datasource.username=docker
+spring.datasource.password=docker
+```
 
 ## Using Flyway for DB migration
 You can initialize your database by running the following mvn goal
@@ -63,3 +108,31 @@ auth0.audience=http://localhost:9090/
 auth0.client.id.with.read.athletes.scope=somevalue
 auth0.client.secret.with.read.athletes.scope=somesecret
 ```
+
+## Creating a docker image for the crossfit-backend
+In order to create a docker image we use buildroots. 
+The process is extremely easy. Just execute the following maven goal: 
+```
+mvn spring-boot:build-image -Dflyway.configFiles=C:\Projects\NewBeginings\crossfit-backend\myFlywayConfig.properties
+```
+Once the maven goal is finished you can find the image in your local docker repo: 
+```
+docker image ls 
+```
+The name of the image is currently set to ilieskou.crossfit-backend but you can change it in the pom file.
+
+In order to run the docker image of the backend execute the following command: 
+```
+ docker run -it --rm  --name crossfit_backend_ctr -p 9090:9090 -e spring.datasource.url=jdbc:postgresql://150.156.359.61:49170/crossfit_app  ilieskou.crossfit-backend
+```
+With this command you can see if the docker runs succesfully. Given the -it flags you will 
+be able to see the output of the springboot application. We also map the container port 9090
+to the host port 9090. If you have changed the server.port variable in the application.properties
+file then you will need to adjust your command as well. Finally we overwrite the 
+spring.datasource.url variable with an environmental variable that is of the following 
+structure: 
+```
+jdbc:postgresql://<HOST_IP>:49170/crossfit_app
+```
+The HOST_IP is being used here so that we can connect the two containers. 
+This is not a good solution since the host IP can change. In time we will update the solution.
