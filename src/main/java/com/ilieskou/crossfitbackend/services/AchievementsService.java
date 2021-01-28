@@ -21,9 +21,10 @@ public class AchievementsService {
         List<Double> snatchAchievements = Arrays.asList(102.0, 103.5, 95.5, 85.0, 120.5, 115.0, 116.0, 130.0, 90.0, 96.5);
         List<Double> cleanAchievements = Arrays.asList(120.0, 185.0, 196.0, 145.0, 136.0, 120.0, 152.0, 97.0, 123.0, 115.0);
         List<Double> burpeesAchievements = Arrays.asList(90.0, 85.0, 96.0, 105.0, 106.0, 120.0, 85.0, 97.0, 109.0, 115.0);
-        ExerciseRecordDto snatchRecord = new ExerciseRecordDto("Snatch", "Kg", athletes, snatchAchievements);
-        ExerciseRecordDto cleanRecord = new ExerciseRecordDto("Clean", "Kg", athletes, cleanAchievements);
-        ExerciseRecordDto burpeesRecord = new ExerciseRecordDto("Burpees", "burpees/min", athletes, burpeesAchievements);
+
+        ExerciseRecordDto snatchRecord = new ExerciseRecordDto("Snatch", "Kg", createRecordEntries(athletes, snatchAchievements));
+        ExerciseRecordDto cleanRecord = new ExerciseRecordDto("Clean", "Kg", createRecordEntries(athletes, cleanAchievements));
+        ExerciseRecordDto burpeesRecord = new ExerciseRecordDto("Burpees", "B/min", createRecordEntries(athletes, burpeesAchievements));
         if (exerciseId == 1) return snatchRecord;
         if (exerciseId == 2) return cleanRecord;
         if (exerciseId == 3) return burpeesRecord;
@@ -31,7 +32,14 @@ public class AchievementsService {
                 HttpStatus.NOT_FOUND, "No records available for exercise id " + exerciseId);
     }
 
-    //
+    private List<ExerciseRecordDto.RecordEntry> createRecordEntries(List<String> athletes, List<Double> achievements) {
+        List<ExerciseRecordDto.RecordEntry> entries = new ArrayList<>();
+        for (int i = 0; i < athletes.size(); i++) {
+            entries.add(new ExerciseRecordDto.RecordEntry(athletes.get(i), achievements.get(i)));
+        }
+        return entries;
+    }
+
     public List<AchievementsLogDto> getTopAchievementsForAthlete(Long athleteId) {
 
         AchievementsLogDto snatch = new AchievementsLogDto("Snatch", getDates(),

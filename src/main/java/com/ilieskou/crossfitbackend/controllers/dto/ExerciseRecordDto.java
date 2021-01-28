@@ -6,18 +6,15 @@ public class ExerciseRecordDto {
 
     private String exerciseName;
     private String exerciseMeasurement;
-    private List<String> athleteLastName;
-    private List<Double> Record;
+    private List<RecordEntry> recordEntries;
 
 
     public ExerciseRecordDto(String exerciseName,
                              String exerciseMeasurement,
-                             List<String> athleteLastName,
-                             List<Double> record) {
+                             List<RecordEntry> recordEntries) {
         this.exerciseName = exerciseName;
         this.exerciseMeasurement = exerciseMeasurement;
-        this.athleteLastName = athleteLastName;
-        Record = record;
+        this.recordEntries = recordEntries;
     }
 
     public String getExerciseName() {
@@ -36,21 +33,37 @@ public class ExerciseRecordDto {
         this.exerciseMeasurement = exerciseMeasurement;
     }
 
-    public List<String> getAthleteLastName() {
-        return athleteLastName;
+    public List<RecordEntry> getRecordEntries() {
+        return recordEntries;
     }
 
-    public void setAthleteLastName(List<String> athleteLastName) {
-        this.athleteLastName = athleteLastName;
+    public void setRecordEntries(List<RecordEntry> recordEntries) {
+        this.recordEntries = recordEntries;
     }
 
-    public List<Double> getRecord() {
-        return Record;
+    public static class RecordEntry {
+        private String athleteName;
+        private Double record;
+
+        public RecordEntry(String athleteName, Double record) {
+            this.athleteName = athleteName;
+            this.record = record;
+        }
+
+        public String getAthleteName() {
+            return athleteName;
+        }
+
+        public void setAthleteName(String athleteName) {
+            this.athleteName = athleteName;
+        }
+
+        public Double getRecord() {
+            return record;
+        }
+
+        public void setRecord(Double record) {
+            this.record = record;
+        }
     }
-
-    public void setRecord(List<Double> record) {
-        Record = record;
-    }
-
-
 }
