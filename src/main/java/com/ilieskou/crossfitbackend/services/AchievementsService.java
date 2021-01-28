@@ -42,16 +42,25 @@ public class AchievementsService {
 
     public List<AchievementsLogDto> getTopAchievementsForAthlete(Long athleteId) {
 
-        AchievementsLogDto snatch = new AchievementsLogDto("Snatch", getDates(),
-                Arrays.asList(100.0, 101.0, 110.0, 90.0, 115.0, 120.0, 122.5, 125.0, 130.0, 114.0, 97.0, 100.0, 98.0)
+        AchievementsLogDto snatch = new AchievementsLogDto("Snatch", "Kg",
+                getAchievementsEntries(Arrays.asList(100.0, 101.0, 110.0, 90.0, 115.0, 120.0, 122.5, 125.0, 130.0, 114.0, 97.0, 100.0, 98.0))
         );
-        AchievementsLogDto clean = new AchievementsLogDto("Clean", getDates(),
-                Arrays.asList(156.0, 175.0, 185.0, 184.0, 186.0, 189.0, 188.0, 130.0, 152.0, 126.0, 167.0, 100.0, 98.0)
+        AchievementsLogDto clean = new AchievementsLogDto("Clean", "Kg",
+                getAchievementsEntries(Arrays.asList(156.0, 175.0, 185.0, 184.0, 186.0, 189.0, 188.0, 130.0, 152.0, 126.0, 167.0, 100.0, 98.0))
         );
-        AchievementsLogDto burpees = new AchievementsLogDto("Burpees", getDates(),
-                Arrays.asList(56.0, 75.0, 85.0, 84.0, 86.0, 89.0, 88.0, 90.0, 92.0, 96.0, 97.0, 100.0, 98.0)
+        AchievementsLogDto burpees = new AchievementsLogDto("Burpees", "B/min",
+                getAchievementsEntries(Arrays.asList(56.0, 75.0, 85.0, 84.0, 86.0, 89.0, 88.0, 90.0, 92.0, 96.0, 97.0, 100.0, 98.0))
         );
         return Arrays.asList(snatch, clean, burpees);
+    }
+
+    private List<AchievementsLogDto.AchievementEntry> getAchievementsEntries(List<Double> values) {
+        List<Date> dates = getDates();
+        List<AchievementsLogDto.AchievementEntry> entries = new ArrayList<>();
+        for (int i = 0; i < values.size(); i++) {
+            entries.add(new AchievementsLogDto.AchievementEntry(dates.get(i), values.get(i)));
+        }
+        return entries;
     }
 
     private List<Date> getDates() {

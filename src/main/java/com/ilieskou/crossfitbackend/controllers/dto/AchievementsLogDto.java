@@ -5,13 +5,21 @@ import java.util.List;
 
 public class AchievementsLogDto {
     private String exerciseName;
-    private List<Date> ts;
-    private List<Double> achievements;
+    private String exerciseMeasurement;
+    private List<AchievementEntry> achievements;
 
-    public AchievementsLogDto(String exerciseName, List<Date> ts, List<Double> achievement) {
+    public AchievementsLogDto(String exerciseName, String exerciseMeasurement, List<AchievementEntry> achievements) {
         this.exerciseName = exerciseName;
-        this.ts = ts;
-        this.achievements = achievement;
+        this.exerciseMeasurement = exerciseMeasurement;
+        this.achievements = achievements;
+    }
+
+    public String getExerciseMeasurement() {
+        return exerciseMeasurement;
+    }
+
+    public void setExerciseMeasurement(String exerciseMeasurement) {
+        this.exerciseMeasurement = exerciseMeasurement;
     }
 
     public String getExerciseName() {
@@ -22,20 +30,38 @@ public class AchievementsLogDto {
         this.exerciseName = exerciseName;
     }
 
-    public List<Date> getTs() {
-        return ts;
-    }
-
-    public void setTs(List<Date> ts) {
-        this.ts = ts;
-    }
-
-    public List<Double> getAchievements() {
+    public List<AchievementEntry> getAchievements() {
         return achievements;
     }
 
-    public void setAchievements(List<Double> achievements) {
+    public void setAchievements(List<AchievementEntry> achievements) {
         this.achievements = achievements;
+    }
+
+    public static class AchievementEntry {
+        private Date ts;
+        private Double value;
+
+        public AchievementEntry(Date ts, Double value) {
+            this.ts = ts;
+            this.value = value;
+        }
+
+        public Date getTs() {
+            return ts;
+        }
+
+        public void setTs(Date ts) {
+            this.ts = ts;
+        }
+
+        public Double getValue() {
+            return value;
+        }
+
+        public void setValue(Double value) {
+            this.value = value;
+        }
     }
 }
 
