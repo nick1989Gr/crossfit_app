@@ -1,13 +1,19 @@
 package com.ilieskou.crossfitbackend;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class CrossfitBackendApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CrossfitBackendApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(CrossfitBackendApplication.class, args);
+    }
 
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 }
