@@ -1,4 +1,7 @@
 # Crossfit backend service
+## Intro 
+
+This is my **pet** project for creating a backend for a CrossFit app that can handle class bookings. 
 
 ## Prepare the PostgreSQL database
 
